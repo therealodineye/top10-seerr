@@ -1,0 +1,12 @@
+services:
+  top10-seerr:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: top10-seerr
+    ports:
+      - "8562:5000"
+    volumes:
+      # Mount the local .env file to persist Overseerr configuration settings saved in the UI
+      - ./.env:/app/.env
+    restart: unless-stopped

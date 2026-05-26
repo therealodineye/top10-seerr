@@ -1,0 +1,14 @@
+.git
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.local
+.venv
+venv
+ENV
+verify_flow.py
+.system_generated
+.compaction_checkpoints
+*.log

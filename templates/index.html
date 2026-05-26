@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top10 to Seerr</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f3ff',
+                            100: '#e1e7ff',
+                            200: '#c8d4ff',
+                            300: '#a3b7ff',
+                            400: '#7991ff',
+                            500: '#4f66ff',
+                            600: '#3b43f7',
+                            700: '#2b2ee1',
+                            800: '#2426b6',
+                            900: '#232791',
+                            950: '#151556',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Platform tabs active states */
+        .platform-tab.active-netflix {
+            background-color: rgba(229, 9, 20, 0.1) !important;
+            border-color: rgba(229, 9, 20, 0.5) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.15) !important;
+        }
+        .platform-tab.active-amazon-prime {
+            background-color: rgba(0, 168, 225, 0.1) !important;
+            border-color: rgba(0, 168, 225, 0.5) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(0, 168, 225, 0.15) !important;
+        }
+        .platform-tab.active-disney {
+            background-color: rgba(0, 99, 229, 0.1) !important;
+            border-color: rgba(0, 99, 229, 0.5) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(0, 99, 229, 0.15) !important;
+        }
+        .platform-tab.active-hbo-max {
+            background-color: rgba(153, 51, 255, 0.1) !important;
+            border-color: rgba(153, 51, 255, 0.5) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(153, 51, 255, 0.15) !important;
+        }
+        .platform-tab.active-apple-tv {
+            background-color: rgba(255, 255, 255, 0.08) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1) !important;
+        }
+        .platform-tab.active-paramount-plus {
+            background-color: rgba(0, 100, 255, 0.1) !important;
+            border-color: rgba(0, 100, 255, 0.5) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(0, 100, 255, 0.15) !important;
+        }
+    </style>
+</head>
+<body class="min-h-full font-sans antialiased bg-slate-950 text-slate-100 flex flex-col pb-24">
+
+    <!-- Upper Navigation Bar -->
+    <nav class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 sm:px-8 flex justify-between items-center shadow-lg h-16 sm:h-20 py-0">
+        <div class="flex items-center h-full">
+            <img src="/static/img/top_ten_logo.jpg?v=1" class="h-full w-auto object-contain rounded-none" alt="Netflix Top10 to Seerr Logo">
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <span id="config-status-badge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-red-950/40 text-red-400 border border-red-900/50 flex items-center space-x-1.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                <span>Unconfigured</span>
+            </span>
+            <button id="btn-open-drawer" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500" aria-label="Open Settings">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto w-full px-4 sm:px-8 mt-8 flex-grow">
+        
+        <!-- Welcome Toast / Notice if unconfigured -->
+        <div id="notice-unconfigured" class="hidden mb-8 p-4 rounded-2xl bg-gradient-to-r from-red-950/30 to-slate-900 border border-red-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
+            <div class="flex items-center space-x-3">
+                <div class="h-10 w-10 rounded-xl bg-red-900/20 border border-red-800 flex items-center justify-center text-red-400 shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-bold text-red-200">Overseerr Configuration Needed</h3>
+                    <p class="text-sm text-slate-400">Provide your Seerr URL, API Key, and email credentials to fetch status and sync requests.</p>
+                </div>
+            </div>
+            <button id="btn-notice-configure" class="px-4 py-2 bg-red-900/30 hover:bg-red-900/50 border border-red-800 text-red-300 font-semibold rounded-xl text-sm transition-all focus:outline-none">
+                Configure Now
+            </button>
+        </div>
+
+        <section class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl mb-8">
+            <!-- Platform Horizontal Tabs -->
+            <div class="mb-6 border-b border-slate-800/60 pb-6">
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Streaming Platform</label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="platform-tabs">
+                    <!-- Netflix -->
+                    <button type="button" data-platform="netflix" class="platform-tab flex items-center justify-center gap-2.5 py-3 px-4 rounded-2xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/50 hover:border-red-500/30 text-slate-400 hover:text-red-500 font-bold transition-all duration-300 focus:outline-none">
+                        <span class="h-2.5 w-2.5 rounded-full bg-red-600 shadow-[0_0_8px_#E50914] shrink-0"></span>
+                        <span class="truncate">Netflix</span>
+                    </button>
+                    <!-- Amazon Prime -->
+                    <button type="button" data-platform="amazon-prime" class="platform-tab flex items-center justify-center gap-2.5 py-3 px-4 rounded-2xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/50 hover:border-sky-500/30 text-slate-400 hover:text-sky-400 font-bold transition-all duration-300 focus:outline-none">
+                        <span class="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_8px_#00A8E1] shrink-0"></span>
+                        <span class="truncate">Prime Video</span>
+                    </button>
+                    <!-- Disney+ -->
+                    <button type="button" data-platform="disney" class="platform-tab flex items-center justify-center gap-2.5 py-3 px-4 rounded-2xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/50 hover:border-indigo-500/30 text-slate-400 hover:text-indigo-400 font-bold transition-all duration-300 focus:outline-none">
+                        <span class="h-2.5 w-2.5 rounded-full bg-indigo-500 shadow-[0_0_8px_#0063e5] shrink-0"></span>
+                        <span class="truncate">Disney+</span>
+                    </button>
+                    <!-- HBO Max -->
+                    <button type="button" data-platform="hbo-max" class="platform-tab flex items-center justify-center gap-2.5 py-3 px-4 rounded-2xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/50 hover:border-purple-500/30 text-slate-400 hover:text-purple-400 font-bold transition-all duration-300 focus:outline-none">
+                        <span class="h-2.5 w-2.5 rounded-full bg-purple-500 shadow-[0_0_8px_#9933FF] shrink-0"></span>
+                        <span class="truncate">HBO Max</span>
+                    </button>
+                    <!-- Apple TV+ -->
+                    <button type="button" data-platform="apple-tv" class="platform-tab flex items-center justify-center gap-2.5 py-3 px-4 rounded-2xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/50 hover:border-white/30 text-slate-400 hover:text-white font-bold transition-all duration-300 focus:outline-none">
+                        <span class="h-2.5 w-2.5 rounded-full bg-white shadow-[0_0_8px_#ffffff] shrink-0"></span>
+                        <span class="truncate">Apple TV+</span>
+                    </button>
+                    <!-- Paramount+ -->
+                    <button type="button" data-platform="paramount-plus" class="platform-tab flex items-center justify-center gap-2.5 py-3 px-4 rounded-2xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/50 hover:border-blue-500/30 text-slate-400 hover:text-blue-400 font-bold transition-all duration-300 focus:outline-none">
+                        <span class="h-2.5 w-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_#0064FF] shrink-0"></span>
+                        <span class="truncate">Paramount+</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+                
+                <!-- Searchable Combobox Country Picker -->
+                <div class="md:col-span-5 relative">
+                    <label for="country-input" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Country or Global List</label>
+                    <div class="relative">
+                        <div id="input-leading-icon" class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                            </svg>
+                        </div>
+                        <input type="text" id="country-input" autocomplete="off" placeholder="Search country or global list..." 
+                               class="w-full pl-11 pr-10 py-3 bg-slate-950 border border-slate-800 hover:border-slate-700 focus:border-brand-500 text-white rounded-2xl transition-all font-medium placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+                        <button id="btn-clear-input" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300 hidden">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Combobox Dropdown Menu -->
+                    <div id="combobox-dropdown" class="absolute left-0 right-0 z-50 mt-2 max-h-60 overflow-y-auto bg-slate-950 border border-slate-800 rounded-2xl shadow-2xl hidden scrollbar">
+                        <div id="combobox-options-container" class="py-1">
+                            <!-- Options filled dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toggles Column -->
+                <div class="md:col-span-4 flex justify-start items-center space-x-6 py-1 flex-row flex-nowrap shrink-0 pb-3">
+                    <label class="flex items-center space-x-3 cursor-pointer group">
+                        <input type="checkbox" id="toggle-movies" checked class="sr-only">
+                        <div class="w-11 h-6 bg-slate-800 group-hover:bg-slate-700 rounded-full border border-slate-700 relative transition-all duration-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-400 after:rounded-full after:h-4 after:w-4 after:transition-all after:duration-300 input-checked-brand"></div>
+                        <span class="text-sm font-semibold text-slate-300 select-none">Movies</span>
+                    </label>
+
+                    <label class="flex items-center space-x-3 cursor-pointer group">
+                        <input type="checkbox" id="toggle-shows" checked class="sr-only">
+                        <div class="w-11 h-6 bg-slate-800 group-hover:bg-slate-700 rounded-full border border-slate-700 relative transition-all duration-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-400 after:rounded-full after:h-4 after:w-4 after:transition-all after:duration-300 input-checked-brand"></div>
+                        <span class="text-sm font-semibold text-slate-300 select-none">Shows</span>
+                    </label>
+                </div>
+
+                <!-- Fetch Button Column -->
+                <div class="md:col-span-3">
+                    <button id="btn-fetch" class="w-full py-3 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 active:from-brand-700 active:to-indigo-700 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-brand-500/20 active:scale-[0.98] flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <svg class="w-5 h-5 text-indigo-100" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17"></path>
+                        </svg>
+                        <span class="truncate">Fetch Charts</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auto-Sync Premium Banner -->
+        <div id="auto-sync-banner" class="mb-8 p-5 rounded-3xl bg-slate-900/40 backdrop-blur-md border border-slate-800/80 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-5 transition-all duration-300">
+            <div class="flex items-center space-x-4 w-full lg:w-auto">
+                <div id="banner-platform-icon-container" class="h-12 w-12 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-center shrink-0 shadow-inner">
+                    <!-- Dynamic Platform/Globe Emblem -->
+                </div>
+                <div class="min-w-0 flex-grow lg:flex-grow-0">
+                    <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+                        <span id="banner-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-1.5 shrink-0 animate-pulse">
+                            <!-- Status Badge -->
+                        </span>
+                        <span id="banner-title" class="font-extrabold text-white text-sm">Auto-Sync Pipeline</span>
+                    </div>
+                    <p id="banner-description" class="text-xs text-slate-400 mt-1 leading-relaxed">
+                        <!-- Status description with details of subscription -->
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto justify-end">
+                <div class="w-full sm:w-auto relative">
+                    <label for="banner-media-select" class="sr-only">Sync Media Type</label>
+                    <select id="banner-media-select" class="w-full sm:w-48 pl-3 pr-8 py-2.5 bg-slate-950 border border-slate-800 focus:border-brand-500 rounded-xl text-xs font-bold text-slate-200 transition-all focus:outline-none appearance-none cursor-pointer">
+                        <option value="both">🌟 Both Movies & Shows</option>
+                        <option value="movie">🎬 Movies Only</option>
+                        <option value="tv">📺 Shows Only</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                    <button id="btn-banner-action" class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold rounded-xl text-xs transition-all shadow-md active:scale-[0.98] focus:outline-none flex items-center justify-center space-x-1.5">
+                        <!-- Dynamic Button Text -->
+                    </button>
+                    <button id="btn-banner-disable" class="hidden px-3 py-2.5 bg-red-950/20 hover:bg-red-950/40 border border-red-900/40 hover:border-red-800 text-red-400 font-extrabold rounded-xl text-xs transition-all shadow-md active:scale-[0.98] focus:outline-none flex items-center justify-center">
+                        Disable
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loader State -->
+        <div id="fetch-loader" class="hidden py-16 flex flex-col items-center justify-center space-y-4">
+            <div class="h-12 w-12 rounded-full border-4 border-slate-800 border-t-brand-500 animate-spin"></div>
+            <p class="text-slate-400 font-medium text-sm animate-pulse">Scraping FlixPatrol charts and verifying Overseerr request statuses...</p>
+        </div>
+
+        <!-- Empty / Init State -->
+        <div id="init-state" class="py-16 text-center border-2 border-dashed border-slate-800 rounded-3xl">
+            <svg class="w-12 h-12 mx-auto text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+            <h3 class="text-lg font-bold text-slate-300">No Data Loaded</h3>
+            <p class="text-sm text-slate-500 max-w-sm mx-auto mt-1">Select a country or global list above, select content types, and click Fetch to retrieve trending lists.</p>
+        </div>
+
+        <!-- Twin-Column Content Grid -->
+        <div id="content-grid" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-12">
+            
+            <!-- Left Column: Movies -->
+            <div id="movies-container" class="space-y-4">
+                <div class="flex justify-between items-center px-2">
+                    <h2 class="text-lg font-extrabold tracking-tight flex items-center space-x-2">
+                        <span class="h-2 w-2 rounded-full bg-brand-500"></span>
+                        <span>Top 10 Movies</span>
+                    </h2>
+                    <span id="movies-count-badge" class="px-2 py-0.5 rounded-full text-xs font-bold bg-slate-900 border border-slate-800 text-slate-400">0 loaded</span>
+                </div>
+                <div id="movies-list" class="space-y-3">
+                    <!-- Cards populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Right Column: Shows -->
+            <div id="shows-container" class="space-y-4">
+                <div class="flex justify-between items-center px-2">
+                    <h2 class="text-lg font-extrabold tracking-tight flex items-center space-x-2">
+                        <span class="h-2 w-2 rounded-full bg-indigo-400"></span>
+                        <span>Top 10 Shows</span>
+                    </h2>
+                    <span id="shows-count-badge" class="px-2 py-0.5 rounded-full text-xs font-bold bg-slate-900 border border-slate-800 text-slate-400">0 loaded</span>
+                </div>
+                <div id="shows-list" class="space-y-3">
+                    <!-- Cards populated dynamically -->
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Settings Overlay Drawer -->
+    <div id="drawer-backdrop" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden transition-opacity duration-300 ease-out opacity-0"></div>
+    <div id="settings-drawer" class="fixed top-0 right-0 z-50 h-full w-full sm:w-[440px] bg-slate-900 border-l border-slate-800 shadow-2xl p-6 sm:p-8 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        
+        <!-- Drawer Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-xl font-bold tracking-tight text-white flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-brand-400 animate-spin" style="animation-duration: 8s;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span>Overseerr Settings</span>
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">Configure credentials stored securely in `.env`</p>
+            </div>
+            <button id="btn-close-drawer" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700 transition-all focus:outline-none" aria-label="Close Settings">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Drawer Form Content -->
+        <div class="flex-grow space-y-6 overflow-y-auto pr-1">
+            <div class="space-y-2">
+                <label for="cfg-url" class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Overseerr URL</label>
+                <input type="url" id="cfg-url" placeholder="https://seerr.domain.com"
+                       class="w-full p-3 bg-slate-950 border border-slate-800 focus:border-brand-500 rounded-xl text-white text-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+            </div>
+
+            <div class="space-y-2">
+                <label for="cfg-apikey" class="block text-xs font-bold text-slate-400 uppercase tracking-wider">API Key</label>
+                <input type="password" id="cfg-apikey" placeholder="Enter API key"
+                       class="w-full p-3 bg-slate-950 border border-slate-800 focus:border-brand-500 rounded-xl text-white text-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+            </div>
+
+            <div class="space-y-2">
+                <label for="cfg-email" class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Overseerr Account Email</label>
+                <input type="email" id="cfg-email" placeholder="email@address.com"
+                       class="w-full p-3 bg-slate-950 border border-slate-800 focus:border-brand-500 rounded-xl text-white text-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+                <p class="text-[10px] text-slate-500">Needed for local auth session requests bypass auto-approval.</p>
+            </div>
+
+            <div class="space-y-2">
+                <label for="cfg-password" class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Overseerr Account Password</label>
+                <input type="password" id="cfg-password" placeholder="Enter password"
+                       class="w-full p-3 bg-slate-950 border border-slate-800 focus:border-brand-500 rounded-xl text-white text-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+            </div>
+
+            <!-- Pinned Automation Sync Section -->
+            <div class="border-t border-slate-800 pt-6 mt-6 space-y-4">
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pinned Background Sync</h3>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Scrapes and syncs a specified Top 10 list every 48 hours automatically.</p>
+                </div>
+
+                <div class="flex items-center justify-between py-2">
+                    <span class="text-sm font-semibold text-slate-300">Enable Automation</span>
+                    <label class="flex items-center cursor-pointer group">
+                        <input type="checkbox" id="cfg-auto-enabled" class="sr-only">
+                        <div class="w-11 h-6 bg-slate-800 group-hover:bg-slate-700 rounded-full border border-slate-700 relative transition-all duration-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-400 after:rounded-full after:h-4 after:w-4 after:transition-all after:duration-300 input-checked-brand animate-colors"></div>
+                    </label>
+                </div>
+
+                <div id="automation-options" class="space-y-4 hidden">
+                    <div class="space-y-2">
+                        <label for="cfg-auto-platform" class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Sync Platform</label>
+                        <select id="cfg-auto-platform" class="w-full p-3 bg-slate-950 border border-slate-800 focus:border-brand-500 rounded-xl text-white text-sm transition-all focus:outline-none">
+                            <option value="netflix">Netflix</option>
+                            <option value="amazon-prime">Amazon Prime</option>
+                            <option value="disney">Disney+</option>
+                            <option value="hbo-max">HBO Max</option>
+                            <option value="apple-tv">Apple TV+</option>
+                            <option value="paramount-plus">Paramount+</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="cfg-auto-country" class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Sync Country / List</label>
+                        <select id="cfg-auto-country" class="w-full p-3 bg-slate-950 border border-slate-800 focus:border-brand-500 rounded-xl text-white text-sm transition-all focus:outline-none">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="cfg-auto-media" class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Sync Media Type</label>
+                        <select id="cfg-auto-media" class="w-full p-3 bg-slate-950 border border-slate-800 focus:border-brand-500 rounded-xl text-white text-sm transition-all focus:outline-none">
+                            <option value="both">Both Movies & TV Shows</option>
+                            <option value="movie">Movies Only</option>
+                            <option value="tv">TV Shows Only</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="drawer-save-status" class="hidden p-3.5 rounded-xl text-sm font-semibold">
+                <!-- Status Message -->
+            </div>
+        </div>
+
+        <!-- Drawer Footer Submit -->
+        <div class="border-t border-slate-800 pt-6 mt-6">
+            <button id="btn-save-cfg" class="w-full py-3.5 bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-brand-500/20 active:scale-[0.98] flex items-center justify-center space-x-2 focus:outline-none">
+                <svg class="w-5 h-5 text-brand-100" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>Save Configuration</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Sticky Bottom Actions Bar -->
+    <div id="sticky-bottom-bar" class="fixed bottom-0 left-0 right-0 z-30 transform translate-y-full transition-transform duration-300 ease-out py-4 px-6 bg-slate-900/90 backdrop-blur-md border-t border-slate-800 flex flex-col sm:flex-row gap-4 items-center justify-between shadow-2xl">
+        <div class="flex items-center space-x-4">
+            <span id="selected-summary-text" class="text-sm font-semibold text-slate-300">0 items selected to request</span>
+            <div class="flex items-center space-x-2">
+                <button id="btn-select-all" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-bold border border-slate-700 transition-all focus:outline-none">
+                    Select All
+                </button>
+                <button id="btn-deselect-all" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-bold border border-slate-700 transition-all focus:outline-none">
+                    Deselect All
+                </button>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4 w-full sm:w-auto">
+            <button id="btn-sync" class="w-full sm:w-auto px-6 py-3 bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white font-extrabold rounded-xl text-sm transition-all shadow-md flex items-center justify-center space-x-2 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-brand-500">
+                <span id="sync-spinner" class="hidden h-4 w-4 rounded-full border-2 border-white/20 border-t-white animate-spin"></span>
+                <span id="sync-button-text">Sync Selected to Seerr</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast System -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <!-- Injecting styling for toggle switches -->
+    <style>
+        .input-checked-brand::after {
+            left: 2px;
+        }
+        input:checked + .input-checked-brand {
+            background-color: #4f66ff;
+            border-color: #3b43f7;
+        }
+        input:checked + .input-checked-brand::after {
+            transform: translateX(1.25rem);
+            background-color: #ffffff;
+        }
+
+        /* Select Button Checked Custom Styles */
+        input[type="checkbox"]:checked + .btn-select-wrapper {
+            background-color: #4f66ff !important;
+            border-color: #3b43f7 !important;
+            color: #ffffff !important;
+        }
+        input[type="checkbox"]:checked + .btn-select-wrapper .select-text-normal {
+            display: none !important;
+        }
+        input[type="checkbox"]:checked + .btn-select-wrapper .select-text-checked {
+            display: inline !important;
+        }
+        input[type="checkbox"]:checked + .btn-select-wrapper .checkbox-indicator {
+            background-color: #ffffff !important;
+            border-color: #ffffff !important;
+            color: #4f66ff !important;
+        }
+        
+        /* Premium custom checkmark indicator behavior */
+        .checkbox-indicator svg {
+            opacity: 0;
+            stroke: transparent !important;
+            transition: opacity 0.2s ease, stroke 0.2s ease;
+        }
+        input[type="checkbox"]:checked + .btn-select-wrapper .checkbox-indicator svg {
+            opacity: 1 !important;
+            stroke: #4f66ff !important;
+        }
+
+        /* Premium Media Card Selection State using CSS :has() */
+        .group:has(input[type="checkbox"]:checked) {
+            border-color: rgba(79, 102, 255, 0.4) !important;
+            background-color: rgba(30, 41, 59, 0.35) !important;
+            box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.4), 0 0 15px rgba(79, 102, 255, 0.08) !important;
+        }
+    </style>
+
+    <!-- Scripting Context -->
+    <script>
+        // DOM Nodes
+        const countryInput = document.getElementById('country-input');
+        const clearInputBtn = document.getElementById('btn-clear-input');
+        const comboboxDropdown = document.getElementById('combobox-dropdown');
+        const bannerMediaSelect = document.getElementById('banner-media-select');
+        const btnBannerAction = document.getElementById('btn-banner-action');
+        const btnBannerDisable = document.getElementById('btn-banner-disable');
+        const comboboxOptions = document.getElementById('combobox-options-container');
+        const toggleMovies = document.getElementById('toggle-movies');
+        const toggleShows = document.getElementById('toggle-shows');
+        const btnFetch = document.getElementById('btn-fetch');
+        const fetchLoader = document.getElementById('fetch-loader');
+        const initState = document.getElementById('init-state');
+        const contentGrid = document.getElementById('content-grid');
+        const moviesList = document.getElementById('movies-list');
+        const showsList = document.getElementById('shows-list');
+        const moviesCountBadge = document.getElementById('movies-count-badge');
+        const showsCountBadge = document.getElementById('shows-count-badge');
+
+        const btnOpenDrawer = document.getElementById('btn-open-drawer');
+        const btnCloseDrawer = document.getElementById('btn-close-drawer');
+        const drawerBackdrop = document.getElementById('drawer-backdrop');
+        const settingsDrawer = document.getElementById('settings-drawer');
+        const btnNoticeConfigure = document.getElementById('btn-notice-configure');
+        const noticeUnconfigured = document.getElementById('notice-unconfigured');
+        const configStatusBadge = document.getElementById('config-status-badge');
+
+        const cfgUrl = document.getElementById('cfg-url');
+        const cfgApikey = document.getElementById('cfg-apikey');
+        const cfgEmail = document.getElementById('cfg-email');
+        const cfgPassword = document.getElementById('cfg-password');
+        const btnSaveCfg = document.getElementById('btn-save-cfg');
+        const drawerSaveStatus = document.getElementById('drawer-save-status');
+
+        // Pinned Automation nodes
+        const cfgAutoEnabled = document.getElementById('cfg-auto-enabled');
+        const cfgAutoPlatform = document.getElementById('cfg-auto-platform');
+        const cfgAutoCountry = document.getElementById('cfg-auto-country');
+        const cfgAutoMedia = document.getElementById('cfg-auto-media');
+        const automationOptionsBlock = document.getElementById('automation-options');
+
+        const stickyBottomBar = document.getElementById('sticky-bottom-bar');
+        const selectedSummaryText = document.getElementById('selected-summary-text');
+        const btnSelectAll = document.getElementById('btn-select-all');
+        const btnDeselectAll = document.getElementById('btn-deselect-all');
+        const btnSync = document.getElementById('btn-sync');
+        const syncSpinner = document.getElementById('sync-spinner');
+        const syncButtonText = document.getElementById('sync-button-text');
+
+        // Application State
+        let allItems = []; // Combobox list
+        let activeSelection = "Norway"; // Default selection
+        let moviesData = []; // Fetched movies array
+        let showsData = []; // Fetched shows array
+        let selectedIds = new Set(); // Set of currently selected unique TMDB IDs for requests
+
+        let activePlatform = "netflix"; // Default active platform
+        let platformCountriesMap = {}; // Maps platform slug to countries list from backend
+        let configCache = {}; // Cache of Overseerr & Automation config
+
+        // Country ISO Codes Mapping for Flags
+        const COUNTRY_CODES = {
+            "Argentina": "ar", "Australia": "au", "Austria": "at", "Bahamas": "bs", "Bahrain": "bh",
+            "Bangladesh": "bd", "Belgium": "be", "Bolivia": "bo", "Brazil": "br", "Bulgaria": "bg",
+            "Canada": "ca", "Chile": "cl", "Colombia": "co", "Costa Rica": "cr", "Croatia": "hr",
+            "Cyprus": "cy", "Czech Republic": "cz", "Denmark": "dk", "Dominican Republic": "do",
+            "Ecuador": "ec", "Egypt": "eg", "El Salvador": "sv", "Estonia": "ee", "Finland": "fi",
+            "France": "fr", "Germany": "de", "Greece": "gr", "Guadeloupe": "gp", "Guatemala": "gt",
+            "Honduras": "hn", "Hong Kong": "hk", "Hungary": "hu", "Iceland": "is", "India": "in",
+            "Indonesia": "id", "Ireland": "ie", "Israel": "il", "Italy": "it", "Jamaica": "jm",
+            "Japan": "jp", "Jordan": "jo", "Kenya": "ke", "Kuwait": "kw", "Latvia": "lv",
+            "Lebanon": "lb", "Lithuania": "lt", "Luxembourg": "lu", "Malaysia": "my",
+            "Maldives": "mv", "Malta": "mt", "Martinique": "mq", "Mauritius": "mu", "Mexico": "mx",
+            "Morocco": "ma", "New Caledonia": "nc", "New Zealand": "nz", "Nicaragua": "ni",
+            "Nigeria": "ng", "Norway": "no", "Oman": "om", "Pakistan": "pk", "Panama": "pa",
+            "Paraguay": "py", "Peru": "pe", "Philippines": "ph", "Poland": "pl", "Portugal": "pt",
+            "Qatar": "qa", "Réunion": "re", "Romania": "ro", "Saudi Arabia": "sa", "Serbia": "rs",
+            "Singapore": "sg", "Slovakia": "sk", "Slovenia": "si", "South Africa": "za",
+            "South Korea": "kr", "Spain": "es", "Sri Lanka": "lk", "Sweden": "se", "Switzerland": "ch",
+            "Taiwan": "tw", "Thailand": "th", "Trinidad and Tobago": "tt", "Türkiye": "tr",
+            "Ukraine": "ua", "United Arab Emirates": "ae", "United Kingdom": "gb", "United States": "us",
+            "Uruguay": "uy", "Venezuela": "ve", "Vietnam": "vn"
+        };
+
+        function updateLeadingIcon(selectionName) {
+            const inputLeadingIcon = document.getElementById('input-leading-icon');
+            if (!inputLeadingIcon) return;
+            
+            if (!selectionName) {
+                // Default search icon
+                inputLeadingIcon.innerHTML = `
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                    </svg>
+                `;
+                return;
+            }
+            
+            // Clean selection name to map correctly if it contains global hints
+            const cleanName = selectionName.replace(" (Global)", "").replace(" (global)", "").trim();
+            
+            if (COUNTRY_CODES[cleanName]) {
+                // Show flag in leading icon
+                const code = COUNTRY_CODES[cleanName];
+                inputLeadingIcon.innerHTML = `
+                    <img src="https://flagcdn.com/w40/${code}.png" class="w-5 h-3.5 object-cover rounded-sm border border-slate-800 shrink-0 shadow-sm" alt="${selectionName} Flag">
+                `;
+            } else {
+                // Show globe for global lists
+                inputLeadingIcon.innerHTML = `
+                    <svg class="w-5 h-5 text-brand-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2m-4-3.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                `;
+            }
+        }
+
+        // Init Lifecycle
+        window.addEventListener('DOMContentLoaded', async () => {
+            await fetchCountriesList();
+            await fetchConfig();
+            setupCombobox();
+            setupPlatformTabs();
+            setupDrawer();
+            setupSelectionControls();
+            
+            // Set default input value
+            const defaultSelectionName = platformCountriesMap[activePlatform]?.some(c => c.name === "Norway") ? "Norway" : "World (Global)";
+            countryInput.value = defaultSelectionName;
+            activeSelection = defaultSelectionName;
+            clearInputBtn.classList.remove('hidden');
+            updateLeadingIcon(defaultSelectionName);
+            updateSyncBanner();
+        });
+
+        // Toast Messages helper
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `p-4 rounded-xl border text-sm font-semibold shadow-xl transition-all duration-300 pointer-events-auto flex items-center space-x-3 translate-y-2 opacity-0`;
+            
+            let bgBorderColors = 'bg-slate-900 border-slate-800 text-white';
+            let icon = `<svg class="w-5 h-5 text-brand-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+
+            if (type === 'error') {
+                bgBorderColors = 'bg-red-950 border-red-900 text-red-200';
+                icon = `<svg class="w-5 h-5 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
+            }
+
+            toast.className += ` ${bgBorderColors}`;
+            toast.innerHTML = `${icon}<span>${message}</span>`;
+            
+            const container = document.getElementById('toast-container');
+            container.appendChild(toast);
+
+            // Reflow trigger
+            toast.offsetHeight;
+            toast.classList.remove('translate-y-2', 'opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // Fetch current .env configuration
+        async function fetchConfig() {
+            try {
+                const res = await fetch('/api/config');
+                if (!res.ok) throw new Error("Failed to load settings.");
+                const config = await res.json();
+                configCache = config; // Cache for dashboard sync checking
+                
+                cfgUrl.value = config.SEERR_URL || '';
+                cfgApikey.value = config.SEERR_API_KEY || '';
+                cfgEmail.value = config.SEERR_EMAIL || '';
+                cfgPassword.value = config.SEERR_PASSWORD || '';
+
+                // Load automated sync subscription settings
+                cfgAutoEnabled.checked = (config.AUTOMATION_ENABLED === 'true');
+                if (cfgAutoEnabled.checked) {
+                    automationOptionsBlock.classList.remove('hidden');
+                } else {
+                    automationOptionsBlock.classList.add('hidden');
+                }
+
+                if (config.AUTOMATION_PLATFORM) {
+                    cfgAutoPlatform.value = config.AUTOMATION_PLATFORM;
+                }
+                
+                // Repopulate countries select list
+                populateAutoCountries();
+                
+                if (config.AUTOMATION_COUNTRY) {
+                    cfgAutoCountry.value = config.AUTOMATION_COUNTRY;
+                }
+                if (config.AUTOMATION_MEDIA_TYPE) {
+                    cfgAutoMedia.value = config.AUTOMATION_MEDIA_TYPE;
+                }
+
+                updateConfigStatus(config);
+                updateSyncBanner();
+            } catch (err) {
+                console.error("Config fetch error:", err);
+            }
+        }
+
+        // Update UI configuration banners
+        function updateConfigStatus(config) {
+            const isConfigured = config.SEERR_URL && config.SEERR_API_KEY && config.SEERR_EMAIL && config.SEERR_PASSWORD;
+            
+            if (isConfigured) {
+                configStatusBadge.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-950/40 text-emerald-400 border border-emerald-900/50 flex items-center space-x-1.5";
+                configStatusBadge.querySelector('span:first-child').className = "h-1.5 w-1.5 rounded-full bg-emerald-500";
+                configStatusBadge.querySelector('span:last-child').textContent = "Configured";
+                noticeUnconfigured.classList.add('hidden');
+            } else {
+                configStatusBadge.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-red-950/40 text-red-400 border border-red-900/50 flex items-center space-x-1.5";
+                configStatusBadge.querySelector('span:first-child').className = "h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse";
+                configStatusBadge.querySelector('span:last-child').textContent = "Unconfigured";
+                noticeUnconfigured.classList.remove('hidden');
+            }
+        }
+
+        // Fetch platform-specific countries map
+        async function fetchCountriesList() {
+            try {
+                const res = await fetch('/api/countries');
+                if (!res.ok) throw new Error("Failed to load countries.");
+                platformCountriesMap = await res.json();
+                
+                updateActivePlatformCountries();
+                populateAutoCountries();
+            } catch (err) {
+                console.error(err);
+                showToast("Error loading country lists.", "error");
+            }
+        }
+
+        // Populate activePlatform items mapping for the dropdown picker
+        function updateActivePlatformCountries() {
+            const list = platformCountriesMap[activePlatform] || [];
+            allItems = list.map(c => {
+                return {
+                    name: c.name,
+                    type: c.slug === 'world' ? 'global' : 'country'
+                };
+            });
+        }
+
+        // Populate sync countries dropdown list inside drawer settings
+        function populateAutoCountries() {
+            const platform = cfgAutoPlatform.value;
+            const countries = platformCountriesMap[platform] || [];
+            
+            cfgAutoCountry.innerHTML = '';
+            countries.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.slug;
+                opt.textContent = c.name;
+                cfgAutoCountry.appendChild(opt);
+            });
+        }
+
+        function getActiveCountrySlug() {
+            const list = platformCountriesMap[activePlatform] || [];
+            const matched = list.find(c => c.name.toLowerCase() === activeSelection.toLowerCase().trim());
+            return matched ? matched.slug : activeSelection.toLowerCase().trim().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+        }
+
+        function updateBannerPlatformIcon(platformSlug, countryName) {
+            const container = document.getElementById('banner-platform-icon-container');
+            if (!container) return;
+            
+            let shadowColor = 'rgba(79, 102, 255, 0.2)';
+            let dotColor = 'bg-brand-500';
+            if (platformSlug === 'netflix') { shadowColor = 'rgba(229, 9, 20, 0.3)'; dotColor = 'bg-red-600'; }
+            else if (platformSlug === 'amazon-prime') { shadowColor = 'rgba(0, 168, 225, 0.3)'; dotColor = 'bg-sky-400'; }
+            else if (platformSlug === 'disney') { shadowColor = 'rgba(0, 99, 229, 0.3)'; dotColor = 'bg-indigo-500'; }
+            else if (platformSlug === 'hbo-max') { shadowColor = 'rgba(153, 51, 255, 0.3)'; dotColor = 'bg-purple-500'; }
+            else if (platformSlug === 'apple-tv') { shadowColor = 'rgba(255, 255, 255, 0.2)'; dotColor = 'bg-white'; }
+            else if (platformSlug === 'paramount-plus') { shadowColor = 'rgba(0, 100, 255, 0.3)'; dotColor = 'bg-blue-500'; }
+            
+            container.style.boxShadow = `inset 0 0 10px rgba(0, 0, 0, 0.6), 0 0 15px ${shadowColor}`;
+            container.style.borderColor = platformSlug === 'apple-tv' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(79, 102, 255, 0.2)';
+            
+            const cleanName = countryName.replace(" (Global)", "").replace(" (global)", "").trim();
+            const code = COUNTRY_CODES[cleanName];
+            
+            if (code) {
+                container.innerHTML = `
+                    <div class="relative w-full h-full flex items-center justify-center">
+                        <img src="https://flagcdn.com/w80/${code}.png" class="w-8 h-5.5 object-cover rounded-md border border-slate-900 shadow-md animate-fade-in shrink-0" alt="${countryName} flag">
+                        <span class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full ${dotColor} border border-slate-950 shadow-sm animate-pulse"></span>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="relative w-full h-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2m-4-3.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full ${dotColor} border border-slate-950 shadow-sm animate-pulse"></span>
+                    </div>
+                `;
+            }
+        }
+
+        function updateSyncBanner() {
+            const banner = document.getElementById('auto-sync-banner');
+            const statusBadge = document.getElementById('banner-status-badge');
+            const bannerDescription = document.getElementById('banner-description');
+            const mediaSelect = document.getElementById('banner-media-select');
+            const btnAction = document.getElementById('btn-banner-action');
+            const btnDisable = document.getElementById('btn-banner-disable');
+            
+            if (!banner) return;
+            
+            const currentSlug = getActiveCountrySlug();
+            const autoEnabled = (configCache.AUTOMATION_ENABLED === 'true');
+            const isCurrentSubscribed = autoEnabled && 
+                                        (configCache.AUTOMATION_PLATFORM === activePlatform) && 
+                                        (configCache.AUTOMATION_COUNTRY === currentSlug);
+            
+            const mediaTypeNames = {
+                'both': 'Both Movies & Shows',
+                'movie': 'Movies Only',
+                'tv': 'Shows Only'
+            };
+            
+            const currentCountryName = activeSelection || "World (Global)";
+            
+            const getPlatformName = (slug) => {
+                const names = {
+                    'netflix': 'Netflix',
+                    'amazon-prime': 'Prime Video',
+                    'disney': 'Disney+',
+                    'hbo-max': 'HBO Max',
+                    'apple-tv': 'Apple TV+',
+                    'paramount-plus': 'Paramount+'
+                };
+                return names[slug] || slug;
+            };
+            
+            const getCountryName = (platformSlug, countrySlug) => {
+                const list = platformCountriesMap[platformSlug] || [];
+                const found = list.find(c => c.slug === countrySlug);
+                return found ? found.name : countrySlug;
+            };
+
+            updateBannerPlatformIcon(activePlatform, currentCountryName);
+
+            const savedMediaType = isCurrentSubscribed ? configCache.AUTOMATION_MEDIA_TYPE : 'both';
+            
+            if (isCurrentSubscribed && !mediaSelect.dataset.userInteracted) {
+                mediaSelect.value = savedMediaType;
+            }
+            delete mediaSelect.dataset.userInteracted;
+            
+            const currentSelectValue = mediaSelect.value;
+            const mediaTypeChanged = isCurrentSubscribed && (currentSelectValue !== savedMediaType);
+            
+            if (!autoEnabled) {
+                statusBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-800 border border-slate-700 text-slate-400 flex items-center space-x-1.5 shrink-0";
+                statusBadge.innerHTML = `<span class="h-1.5 w-1.5 rounded-full bg-slate-500"></span><span>Auto-Sync Disabled</span>`;
+                
+                bannerDescription.innerHTML = `Automated background requests are currently disabled. Enable to sync <strong>${getPlatformName(activePlatform)} (${currentCountryName})</strong> every 48 hours.`;
+                
+                btnAction.className = "w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold rounded-xl text-xs transition-all shadow-md active:scale-[0.98] focus:outline-none flex items-center justify-center space-x-1.5 cursor-pointer";
+                btnAction.innerHTML = `
+                    <svg class="w-4 h-4 text-indigo-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span>Activate Auto-Sync</span>
+                `;
+                
+                btnDisable.classList.add('hidden');
+            } else if (isCurrentSubscribed) {
+                if (mediaTypeChanged) {
+                    statusBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-950/40 text-blue-400 border border-blue-900/50 flex items-center space-x-1.5 shrink-0";
+                    statusBadge.innerHTML = `<span class="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse"></span><span>Pending Changes</span>`;
+                    
+                    bannerDescription.innerHTML = `Current sync: <strong>${getPlatformName(activePlatform)} (${currentCountryName})</strong> but with media type changes. Click Update to save.`;
+                    
+                    btnAction.className = "w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold rounded-xl text-xs transition-all shadow-md active:scale-[0.98] focus:outline-none flex items-center justify-center space-x-1.5 cursor-pointer";
+                    btnAction.innerHTML = `
+                        <svg class="w-4 h-4 text-blue-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Update Sync</span>
+                    `;
+                } else {
+                    statusBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-950/40 text-emerald-400 border border-emerald-900/50 flex items-center space-x-1.5 shrink-0";
+                    statusBadge.innerHTML = `<span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span><span>Auto-Sync Active</span>`;
+                    
+                    bannerDescription.innerHTML = `Active auto-sync pipeline running for <strong>${getPlatformName(activePlatform)} (${currentCountryName})</strong> | <em>${mediaTypeNames[savedMediaType]}</em> every 48 hours.`;
+                    
+                    btnAction.className = "w-full sm:w-auto px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 font-extrabold rounded-xl text-xs transition-all shadow-md active:scale-[0.98] focus:outline-none flex items-center justify-center space-x-1.5 cursor-pointer";
+                    btnAction.innerHTML = `
+                        <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        <span>Disable Sync</span>
+                    `;
+                }
+                
+                btnDisable.classList.add('hidden');
+            } else {
+                const subscribedPlatform = configCache.AUTOMATION_PLATFORM;
+                const subscribedCountrySlug = configCache.AUTOMATION_COUNTRY;
+                const subscribedCountryName = getCountryName(subscribedPlatform, subscribedCountrySlug);
+                const subscribedMediaType = configCache.AUTOMATION_MEDIA_TYPE;
+                
+                statusBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-950/40 text-amber-400 border border-amber-900/50 flex items-center space-x-1.5 shrink-0";
+                statusBadge.innerHTML = `<span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span><span>Sync Active Elsewhere</span>`;
+                
+                bannerDescription.innerHTML = `Currently syncing <strong>${getPlatformName(subscribedPlatform)} (${subscribedCountryName})</strong> | <em>${mediaTypeNames[subscribedMediaType]}</em>. Switch to current list?`;
+                
+                btnAction.className = "w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-extrabold rounded-xl text-xs transition-all shadow-md active:scale-[0.98] focus:outline-none flex items-center justify-center space-x-1.5 cursor-pointer";
+                btnAction.innerHTML = `
+                    <svg class="w-4 h-4 text-amber-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                    </svg>
+                    <span>Switch Auto-Sync Here</span>
+                `;
+                
+                btnDisable.classList.remove('hidden');
+            }
+        }
+
+        async function handleBannerAction() {
+            const currentSlug = getActiveCountrySlug();
+            const autoEnabled = (configCache.AUTOMATION_ENABLED === 'true');
+            const isCurrentSubscribed = autoEnabled && 
+                                        (configCache.AUTOMATION_PLATFORM === activePlatform) && 
+                                        (configCache.AUTOMATION_COUNTRY === currentSlug);
+            
+            const mediaSelect = document.getElementById('banner-media-select');
+            const currentSelectValue = mediaSelect.value;
+            
+            let payload = {
+                SEERR_URL: cfgUrl.value.trim(),
+                SEERR_API_KEY: cfgApikey.value.trim(),
+                SEERR_EMAIL: cfgEmail.value.trim(),
+                SEERR_PASSWORD: cfgPassword.value.trim(),
+            };
+            
+            let actionType = "";
+            
+            if (!autoEnabled) {
+                payload.AUTOMATION_ENABLED = "true";
+                payload.AUTOMATION_PLATFORM = activePlatform;
+                payload.AUTOMATION_COUNTRY = currentSlug;
+                payload.AUTOMATION_MEDIA_TYPE = currentSelectValue;
+                actionType = "activate";
+            } else if (isCurrentSubscribed) {
+                const savedMediaType = configCache.AUTOMATION_MEDIA_TYPE;
+                if (currentSelectValue !== savedMediaType) {
+                    payload.AUTOMATION_ENABLED = "true";
+                    payload.AUTOMATION_PLATFORM = activePlatform;
+                    payload.AUTOMATION_COUNTRY = currentSlug;
+                    payload.AUTOMATION_MEDIA_TYPE = currentSelectValue;
+                    actionType = "update";
+                } else {
+                    payload.AUTOMATION_ENABLED = "false";
+                    payload.AUTOMATION_PLATFORM = configCache.AUTOMATION_PLATFORM;
+                    payload.AUTOMATION_COUNTRY = configCache.AUTOMATION_COUNTRY;
+                    payload.AUTOMATION_MEDIA_TYPE = configCache.AUTOMATION_MEDIA_TYPE;
+                    actionType = "disable";
+                }
+            } else {
+                payload.AUTOMATION_ENABLED = "true";
+                payload.AUTOMATION_PLATFORM = activePlatform;
+                payload.AUTOMATION_COUNTRY = currentSlug;
+                payload.AUTOMATION_MEDIA_TYPE = currentSelectValue;
+                actionType = "switch";
+            }
+            
+            const btnAction = document.getElementById('btn-banner-action');
+            const originalHtml = btnAction.innerHTML;
+            btnAction.disabled = true;
+            btnAction.innerHTML = `<span class="h-4 w-4 rounded-full border-2 border-white/20 border-t-white animate-spin"></span><span>Processing...</span>`;
+            
+            try {
+                const res = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    configCache = payload;
+                    
+                    cfgAutoEnabled.checked = (payload.AUTOMATION_ENABLED === 'true');
+                    if (cfgAutoEnabled.checked) {
+                        automationOptionsBlock.classList.remove('hidden');
+                    } else {
+                        automationOptionsBlock.classList.add('hidden');
+                    }
+                    cfgAutoPlatform.value = payload.AUTOMATION_PLATFORM;
+                    populateAutoCountries();
+                    cfgAutoCountry.value = payload.AUTOMATION_COUNTRY;
+                    cfgAutoMedia.value = payload.AUTOMATION_MEDIA_TYPE;
+                    
+                    updateSyncBanner();
+                    
+                    const getPlatformName = (slug) => {
+                        const names = {
+                            'netflix': 'Netflix',
+                            'amazon-prime': 'Prime Video',
+                            'disney': 'Disney+',
+                            'hbo-max': 'HBO Max',
+                            'apple-tv': 'Apple TV+',
+                            'paramount-plus': 'Paramount+'
+                        };
+                        return names[slug] || slug;
+                    };
+                    
+                    if (actionType === "activate") {
+                        showToast(`Subscribed ${getPlatformName(activePlatform)} (${activeSelection || "Global"}) to Auto-Sync!`);
+                    } else if (actionType === "update") {
+                        showToast("Successfully updated Auto-Sync media type!");
+                    } else if (actionType === "disable") {
+                        showToast("Background auto-sync disabled.");
+                    } else if (actionType === "switch") {
+                        showToast(`Switched active sync pipeline to ${getPlatformName(activePlatform)} (${activeSelection || "Global"})!`);
+                    }
+                } else {
+                    throw new Error(data.error || "Failed to save configuration.");
+                }
+            } catch (err) {
+                showToast(`Failed to update auto-sync: ${err.message}`, "error");
+            } finally {
+                btnAction.disabled = false;
+                btnAction.innerHTML = originalHtml;
+            }
+        }
+
+        async function handleBannerDisable() {
+            const btnDisable = document.getElementById('btn-banner-disable');
+            const originalText = btnDisable.textContent;
+            btnDisable.disabled = true;
+            btnDisable.textContent = "Disabling...";
+            
+            const payload = {
+                SEERR_URL: cfgUrl.value.trim(),
+                SEERR_API_KEY: cfgApikey.value.trim(),
+                SEERR_EMAIL: cfgEmail.value.trim(),
+                SEERR_PASSWORD: cfgPassword.value.trim(),
+                AUTOMATION_ENABLED: "false",
+                AUTOMATION_PLATFORM: configCache.AUTOMATION_PLATFORM,
+                AUTOMATION_COUNTRY: configCache.AUTOMATION_COUNTRY,
+                AUTOMATION_MEDIA_TYPE: configCache.AUTOMATION_MEDIA_TYPE
+            };
+            
+            try {
+                const res = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    configCache = payload;
+                    
+                    cfgAutoEnabled.checked = false;
+                    automationOptionsBlock.classList.add('hidden');
+                    
+                    updateSyncBanner();
+                    showToast("Background auto-sync disabled.");
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (err) {
+                showToast(`Failed to disable sync: ${err.message}`, "error");
+            } finally {
+                btnDisable.disabled = false;
+                btnDisable.textContent = originalText;
+            }
+        }
+
+        // Combobox logic
+        function setupCombobox() {
+            // Render options
+            function renderDropdown(itemsList) {
+                comboboxOptions.innerHTML = '';
+                if (itemsList.length === 0) {
+                    comboboxOptions.innerHTML = `<div class="px-4 py-3 text-sm text-slate-500 font-medium">No results found</div>`;
+                    return;
+                }
+
+                itemsList.forEach(item => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = "w-full text-left px-4 py-2.5 hover:bg-slate-900 transition-colors text-sm font-medium text-slate-200 flex items-center justify-between";
+                    
+                    let iconHtml = '';
+                    if (item.type === 'global') {
+                        // Globe icon SVG
+                        iconHtml = `
+                            <svg class="w-4 h-4 text-indigo-400 shrink-0 mr-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2m-4-3.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        `;
+                    } else {
+                        // Flag image tag
+                        const code = COUNTRY_CODES[item.name];
+                        if (code) {
+                            iconHtml = `
+                                <img src="https://flagcdn.com/w40/${code}.png" class="w-5 h-3.5 object-cover rounded-sm border border-slate-800 shrink-0 mr-2.5 shadow-sm" alt="${item.name} Flag">
+                            `;
+                        } else {
+                            // Fallback globe
+                            iconHtml = `
+                                <svg class="w-4 h-4 text-slate-500 shrink-0 mr-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2m-4-3.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            `;
+                        }
+                    }
+                    
+                    let badge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-900 border border-slate-800 text-slate-400">Country</span>`;
+                    if (item.type === 'global') {
+                        badge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-950/40 border border-indigo-900/50 text-indigo-400">Global List</span>`;
+                    }
+                    
+                    btn.innerHTML = `
+                        <div class="flex items-center min-w-0">
+                            ${iconHtml}
+                            <span class="truncate">${item.name}</span>
+                        </div>
+                        ${badge}
+                    `;
+                    btn.addEventListener('click', () => {
+                        countryInput.value = item.name;
+                        activeSelection = item.name;
+                        clearInputBtn.classList.remove('hidden');
+                        comboboxDropdown.classList.add('hidden');
+                        updateLeadingIcon(item.name);
+                        updateSyncBanner();
+                    });
+                    comboboxOptions.appendChild(btn);
+                });
+            }
+
+            // Input handlers
+            countryInput.addEventListener('focus', () => {
+                filterDropdown(countryInput.value);
+                comboboxDropdown.classList.remove('hidden');
+            });
+
+            countryInput.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (val) {
+                    clearInputBtn.classList.remove('hidden');
+                } else {
+                    clearInputBtn.classList.add('hidden');
+                }
+                filterDropdown(val);
+                comboboxDropdown.classList.remove('hidden');
+                
+                // Update leading icon if input matches a country exactly
+                const exactMatch = allItems.find(item => item.name.toLowerCase() === val.toLowerCase().trim());
+                if (exactMatch) {
+                    activeSelection = exactMatch.name;
+                    updateLeadingIcon(exactMatch.name);
+                    updateSyncBanner();
+                } else {
+                    updateLeadingIcon('');
+                }
+            });
+
+            clearInputBtn.addEventListener('click', () => {
+                countryInput.value = '';
+                activeSelection = '';
+                clearInputBtn.classList.add('hidden');
+                filterDropdown('');
+                updateLeadingIcon('');
+                countryInput.focus();
+                updateSyncBanner();
+            });
+
+            // Filter Helper
+            function filterDropdown(query) {
+                const q = query.toLowerCase().trim();
+                if (!q) {
+                    renderDropdown(allItems);
+                    return;
+                }
+                const filtered = allItems.filter(item => item.name.toLowerCase().includes(q));
+                renderDropdown(filtered);
+            }
+
+            // Click outside handler to close combobox
+            document.addEventListener('click', (e) => {
+                if (!countryInput.contains(e.target) && !comboboxDropdown.contains(e.target) && !clearInputBtn.contains(e.target)) {
+                    comboboxDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function setupPlatformTabs() {
+            const tabs = document.querySelectorAll('.platform-tab');
+            
+            // Set active class on default tab
+            const defaultTab = document.querySelector(`.platform-tab[data-platform="${activePlatform}"]`);
+            if (defaultTab) {
+                defaultTab.classList.add(`active-${activePlatform}`);
+            }
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const nextPlatform = tab.dataset.platform;
+                    if (activePlatform === nextPlatform) return;
+                    
+                    // Remove active class from old active tab
+                    const oldTab = document.querySelector(`.platform-tab[data-platform="${activePlatform}"]`);
+                    if (oldTab) {
+                        oldTab.classList.remove(`active-${activePlatform}`);
+                    }
+                    
+                    activePlatform = nextPlatform;
+                    tab.classList.add(`active-${activePlatform}`);
+                    
+                    // Update country combobox options
+                    updateActivePlatformCountries();
+                    
+                    // Reset input if current value is not in newly selected platform's list
+                    const exists = allItems.some(item => item.name.toLowerCase() === countryInput.value.toLowerCase().trim());
+                    if (!exists) {
+                        const defaultCountry = platformCountriesMap[activePlatform]?.some(c => c.name === "Norway") ? "Norway" : "World (Global)";
+                        countryInput.value = defaultCountry;
+                        activeSelection = defaultCountry;
+                        clearInputBtn.classList.remove('hidden');
+                        updateLeadingIcon(defaultCountry);
+                    }
+                    updateSyncBanner();
+                });
+            });
+        }
+
+        // Settings Drawer logic
+        function setupDrawer() {
+            function openDrawer() {
+                settingsDrawer.classList.remove('translate-x-full');
+                drawerBackdrop.classList.remove('hidden');
+                // Wait for display block to trigger transition
+                setTimeout(() => {
+                    drawerBackdrop.classList.remove('opacity-0');
+                }, 50);
+            }
+
+            function closeDrawer() {
+                settingsDrawer.classList.add('translate-x-full');
+                drawerBackdrop.classList.add('opacity-0');
+                setTimeout(() => {
+                    drawerBackdrop.classList.add('hidden');
+                }, 300);
+            }
+
+            btnOpenDrawer.addEventListener('click', openDrawer);
+            btnNoticeConfigure.addEventListener('click', openDrawer);
+            btnCloseDrawer.addEventListener('click', closeDrawer);
+            drawerBackdrop.addEventListener('click', closeDrawer);
+
+            // Automation settings listeners
+            cfgAutoEnabled.addEventListener('change', () => {
+                if (cfgAutoEnabled.checked) {
+                    automationOptionsBlock.classList.remove('hidden');
+                } else {
+                    automationOptionsBlock.classList.add('hidden');
+                }
+            });
+
+            cfgAutoPlatform.addEventListener('change', populateAutoCountries);
+
+            // Save config logic
+            btnSaveCfg.addEventListener('click', async () => {
+                btnSaveCfg.disabled = true;
+                btnSaveCfg.innerHTML = `<span class="h-4 w-4 rounded-full border-2 border-white/20 border-t-white animate-spin"></span><span>Saving...</span>`;
+                drawerSaveStatus.className = "hidden p-3.5 rounded-xl text-sm font-semibold";
+
+                const payload = {
+                    SEERR_URL: cfgUrl.value.trim(),
+                    SEERR_API_KEY: cfgApikey.value.trim(),
+                    SEERR_EMAIL: cfgEmail.value.trim(),
+                    SEERR_PASSWORD: cfgPassword.value.trim(),
+                    AUTOMATION_ENABLED: cfgAutoEnabled.checked ? "true" : "false",
+                    AUTOMATION_PLATFORM: cfgAutoPlatform.value,
+                    AUTOMATION_COUNTRY: cfgAutoCountry.value,
+                    AUTOMATION_MEDIA_TYPE: cfgAutoMedia.value
+                };
+
+                try {
+                    const res = await fetch('/api/config', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    
+                    if (data.success) {
+                        configCache = payload;
+                        drawerSaveStatus.textContent = "Configuration successfully saved and reloaded!";
+                        drawerSaveStatus.className = "p-3.5 rounded-xl text-sm font-semibold bg-emerald-950/40 text-emerald-400 border border-emerald-900/50";
+                        showToast("Settings successfully saved!");
+                        updateConfigStatus(payload);
+                        updateSyncBanner();
+                        
+                        // Close drawer after short delays
+                        setTimeout(closeDrawer, 1000);
+                    } else {
+                        throw new Error(data.error || "Failed to save.");
+                    }
+                } catch (err) {
+                    drawerSaveStatus.textContent = `Error: ${err.message}`;
+                    drawerSaveStatus.className = "p-3.5 rounded-xl text-sm font-semibold bg-red-950/40 text-red-400 border border-red-900/50";
+                    showToast("Failed to save credentials.", "error");
+                } finally {
+                    btnSaveCfg.disabled = false;
+                    btnSaveCfg.innerHTML = `<svg class="w-5 h-5 text-brand-100" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg><span>Save Configuration</span>`;
+                }
+            });
+        }
+
+        // Fetch Netflix top 10 rankings on click
+        btnFetch.addEventListener('click', async () => {
+            if (!activeSelection) {
+                showToast("Please pick a country or global list to fetch.", "error");
+                return;
+            }
+
+            const fetchM = toggleMovies.checked;
+            const fetchS = toggleShows.checked;
+
+            if (!fetchM && !fetchS) {
+                showToast("Please enable either Movies or Shows to fetch lists.", "error");
+                return;
+            }
+
+            // Visual setup
+            btnFetch.disabled = true;
+            initState.classList.add('hidden');
+            contentGrid.classList.add('hidden');
+            fetchLoader.classList.remove('hidden');
+            hideStickyBottom();
+
+            selectedIds.clear();
+
+            try {
+                const res = await fetch('/api/fetch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        platform: activePlatform,
+                        selection: activeSelection,
+                        movies: fetchM,
+                        shows: fetchS
+                    })
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json();
+                    throw new Error(errData.error || "Failed to fetch content.");
+                }
+
+                const data = await res.json();
+                moviesData = data.movies || [];
+                showsData = data.shows || [];
+
+                renderLists(moviesData, showsData);
+                
+                // Show grid
+                fetchLoader.classList.add('hidden');
+                contentGrid.classList.remove('hidden');
+                
+                showToast(`Scraped listings for ${activeSelection} successfully!`);
+                updateSelectionState();
+
+            } catch (err) {
+                fetchLoader.classList.add('hidden');
+                initState.classList.remove('hidden');
+                showToast(err.message, "error");
+            } finally {
+                btnFetch.disabled = false;
+            }
+        });
+
+        // Render card lists
+        function renderLists(movies, shows) {
+            moviesList.innerHTML = '';
+            showsList.innerHTML = '';
+
+            moviesCountBadge.textContent = `${movies.length} loaded`;
+            showsCountBadge.textContent = `${shows.length} loaded`;
+
+            // Display Movies column or hide
+            if (toggleMovies.checked && movies.length > 0) {
+                document.getElementById('movies-container').classList.remove('hidden');
+                movies.forEach(item => {
+                    const card = createMediaCard(item, 'movie');
+                    moviesList.appendChild(card);
+                });
+            } else {
+                document.getElementById('movies-container').classList.add('hidden');
+            }
+
+            // Display Shows column or hide
+            if (toggleShows.checked && shows.length > 0) {
+                document.getElementById('shows-container').classList.remove('hidden');
+                shows.forEach(item => {
+                    const card = createMediaCard(item, 'tv');
+                    showsList.appendChild(card);
+                });
+            } else {
+                document.getElementById('shows-container').classList.add('hidden');
+            }
+
+            // Check if both empty
+            if (movies.length === 0 && shows.length === 0) {
+                initState.classList.remove('hidden');
+                contentGrid.classList.add('hidden');
+            }
+        }
+
+        function getPlatformBadge(platformSlug) {
+            const badges = {
+                "netflix": `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-red-950/40 text-red-400 border border-red-900/40 uppercase">Netflix</span>`,
+                "amazon-prime": `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-sky-950/40 text-sky-400 border border-sky-900/40 uppercase">Prime Video</span>`,
+                "disney": `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-indigo-950/40 text-indigo-400 border border-indigo-900/40 uppercase">Disney+</span>`,
+                "hbo-max": `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-purple-950/40 text-purple-400 border border-purple-900/40 uppercase">HBO Max</span>`,
+                "apple-tv": `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-slate-800 text-slate-200 border border-slate-700 uppercase">Apple TV+</span>`,
+                "paramount-plus": `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-blue-950/40 text-blue-400 border border-blue-900/40 uppercase">Paramount+</span>`
+            };
+            return badges[platformSlug] || `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-slate-900 text-slate-400 border border-slate-800 uppercase">${platformSlug}</span>`;
+        }
+
+        // Helper to construct dark media cards
+        function createMediaCard(item, type) {
+            const card = document.createElement('div');
+            card.className = `group bg-slate-900 border border-slate-800 rounded-2xl p-4 flex gap-4 transition-all duration-300 hover:border-slate-700 hover:shadow-lg relative overflow-hidden select-none cursor-pointer`;
+            
+            // Add gradient glow on card hover
+            const borderGlow = document.createElement('div');
+            borderGlow.className = `absolute -inset-px bg-gradient-to-tr from-brand-600/10 via-transparent to-indigo-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`;
+            card.appendChild(borderGlow);
+
+            // Poster image logic
+            let posterEl = `
+                <div class="h-24 w-16 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-center shrink-0 text-slate-600 shadow-inner">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+            `;
+            if (item.posterUrl) {
+                posterEl = `
+                    <div class="h-24 w-16 rounded-xl overflow-hidden border border-slate-800 shadow-md group-hover:shadow-brand-500/5 shrink-0 bg-slate-950 transition-all duration-300 group-hover:scale-[1.03]">
+                        <img src="${item.posterUrl}" alt="${item.title} Poster" class="h-full w-full object-cover">
+                    </div>
+                `;
+            }
+
+            // Color-coded badge state
+            let badgeHtml = '';
+            let inputDisabledAttr = '';
+            let inputCheckedAttr = '';
+
+            // Locked status: Already Available (4, 5) or Requested (2, 3) or Declined
+            if (!item.isRequestable) {
+                let badgeText = item.status || "Available";
+                badgeHtml = `
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-950/40 text-emerald-400 border border-emerald-900/40 flex items-center space-x-1.5">
+                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                        <span>${badgeText}</span>
+                    </span>
+                `;
+                inputDisabledAttr = 'disabled';
+            } else {
+                // Ready to request
+                badgeHtml = `
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-950/40 text-brand-400 border border-brand-900/40 flex items-center space-x-1.5">
+                        <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+                        <span>Ready to Request</span>
+                    </span>
+                `;
+                inputCheckedAttr = ''; // Default deselected
+            }
+
+            // Badges container in the top right corner
+            let topRightBadges = `<div class="absolute top-4 right-4 flex items-center gap-1.5 pointer-events-none">`;
+            if (!item.tmdbId) {
+                topRightBadges += `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-slate-950 border border-slate-800 text-slate-500">Not Found</span>`;
+            }
+            topRightBadges += getPlatformBadge(activePlatform);
+            topRightBadges += `</div>`;
+
+            // Card grid layout
+            card.innerHTML += `
+                ${posterEl}
+                <div class="flex flex-col justify-between flex-grow min-w-0 pr-28">
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-extrabold text-brand-400 text-sm leading-none">#${item.rank}</span>
+                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">${type}</span>
+                        </div>
+                        <h3 class="font-extrabold text-base text-white group-hover:text-brand-300 transition-colors leading-tight truncate" title="${item.title}">${item.title}</h3>
+                        ${item.year || item.genre ? `
+                        <div class="text-xs text-slate-400 font-medium">
+                            ${item.year ? item.year : ''}${item.year && item.genre ? ' | ' : ''}${item.genre ? item.genre : ''}
+                        </div>
+                        ` : ''}
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        ${badgeHtml}
+                    </div>
+                </div>
+                ${topRightBadges}
+            `;
+
+            // Active Checkbox Overlay Control (positioned bottom right as a premium button)
+            if (item.isRequestable && item.tmdbId) {
+                const chkContainer = document.createElement('label');
+                chkContainer.className = `absolute right-4 bottom-4 cursor-pointer shrink-0`;
+                chkContainer.innerHTML = `
+                    <input type="checkbox" data-tmdb-id="${item.tmdbId}" data-type="${type}" data-title="${item.title.replace(/"/g, '&quot;')}" ${inputCheckedAttr} class="sr-only">
+                    
+                    <div class="btn-select-wrapper px-3 py-1.5 rounded-xl border border-slate-800 bg-slate-950/60 hover:bg-slate-800 hover:border-slate-700 text-xs font-bold text-slate-300 flex items-center space-x-2 transition-all duration-300 select-none shadow-sm shadow-black/10">
+                        <span class="select-text-normal">Select</span>
+                        <span class="select-text-checked hidden">Selected</span>
+                        
+                        <div class="checkbox-indicator h-4 w-4 rounded bg-slate-900 border border-slate-800 flex items-center justify-center text-transparent transition-all shrink-0">
+                            <svg class="w-3 h-3 stroke-[3.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+
+                const checkbox = chkContainer.querySelector('input');
+                checkbox.addEventListener('change', (e) => {
+                    const tmdb = parseInt(e.target.dataset.tmdbId);
+                    if (e.target.checked) {
+                        selectedIds.add(tmdb);
+                    } else {
+                        selectedIds.delete(tmdb);
+                    }
+                    updateSelectionState();
+                });
+
+                card.appendChild(chkContainer);
+            }
+
+            // Click listener to toggle the selection when clicking anywhere on the card
+            if (item.isRequestable && item.tmdbId) {
+                card.addEventListener('click', (e) => {
+                    // Avoid double toggling when clicking the label container or input itself
+                    if (e.target.closest('label') || e.target.closest('button') || e.target.tagName === 'INPUT' || e.target.closest('a')) {
+                        return;
+                    }
+                    const checkbox = card.querySelector('input[type="checkbox"]');
+                    if (checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                });
+            }
+
+            return card;
+        }
+
+        // Sticky Bottom Panel State updates
+        function updateSelectionState() {
+            // Count total requestable elements
+            const requestableCheckboxes = document.querySelectorAll('input[type="checkbox"][data-tmdb-id]');
+            if (requestableCheckboxes.length > 0) {
+                selectedSummaryText.textContent = `${selectedIds.size} of ${requestableCheckboxes.length} items selected to sync`;
+                showStickyBottom();
+            } else {
+                hideStickyBottom();
+            }
+        }
+
+        function showStickyBottom() {
+            stickyBottomBar.classList.remove('translate-y-full');
+        }
+
+        function hideStickyBottom() {
+            stickyBottomBar.classList.add('translate-y-full');
+        }
+
+        // Handle bulk select/deselect checks
+        function setupSelectionControls() {
+            btnSelectAll.addEventListener('click', () => {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"][data-tmdb-id]');
+                checkboxes.forEach(chk => {
+                    chk.checked = true;
+                    selectedIds.add(parseInt(chk.dataset.tmdbId));
+                });
+                updateSelectionState();
+            });
+
+            btnDeselectAll.addEventListener('click', () => {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"][data-tmdb-id]');
+                checkboxes.forEach(chk => {
+                    chk.checked = false;
+                    selectedIds.delete(parseInt(chk.dataset.tmdbId));
+                });
+                updateSelectionState();
+            });
+
+            // Banner select media type change listener
+            if (bannerMediaSelect) {
+                bannerMediaSelect.addEventListener('change', () => {
+                    bannerMediaSelect.dataset.userInteracted = "true";
+                    updateSyncBanner();
+                });
+            }
+
+            // Banner primary action button listener
+            if (btnBannerAction) {
+                btnBannerAction.addEventListener('click', handleBannerAction);
+            }
+
+            // Banner secondary disable button listener
+            if (btnBannerDisable) {
+                btnBannerDisable.addEventListener('click', handleBannerDisable);
+            }
+
+            // Submit Sync Requests
+            btnSync.addEventListener('click', async () => {
+                if (selectedIds.size === 0) {
+                    showToast("No items selected to sync.", "error");
+                    return;
+                }
+
+                // Compile requests payload
+                const requestsList = [];
+                const checkboxes = document.querySelectorAll('input[type="checkbox"][data-tmdb-id]');
+                checkboxes.forEach(chk => {
+                    const tmdb = parseInt(chk.dataset.tmdbId);
+                    if (selectedIds.has(tmdb)) {
+                        requestsList.push({
+                            tmdbId: tmdb,
+                            type: chk.dataset.type,
+                            title: chk.dataset.title
+                        });
+                    }
+                });
+
+                // Spin UI
+                btnSync.disabled = true;
+                syncSpinner.classList.remove('hidden');
+                syncButtonText.textContent = "Syncing with Overseerr...";
+
+                try {
+                    const res = await fetch('/api/sync', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ requests: requestsList })
+                    });
+
+                    if (!res.ok) {
+                        const errData = await res.json();
+                        throw new Error(errData.error || "Failed to submit requests.");
+                    }
+
+                    const data = await res.json();
+                    
+                    if (data.success) {
+                        showToast(`Successfully requested ${data.successCount} items!`);
+                        if (data.failCount > 0) {
+                            showToast(`Failed to request ${data.failCount} items. Check Overseerr connections.`, "error");
+                        }
+                        
+                        // Refetch lists to lock requested statuses immediately
+                        btnFetch.click();
+                    } else {
+                        throw new Error("Failed to process requests.");
+                    }
+                } catch (err) {
+                    showToast(err.message, "error");
+                } finally {
+                    btnSync.disabled = false;
+                    syncSpinner.classList.add('hidden');
+                    syncButtonText.textContent = "Sync Selected to Seerr";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
