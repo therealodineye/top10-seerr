@@ -37,7 +37,8 @@ def get_env_vars():
         "AUTOMATION_ENABLED": config.get("AUTOMATION_ENABLED") or os.getenv("AUTOMATION_ENABLED") or "false",
         "AUTOMATION_PLATFORM": config.get("AUTOMATION_PLATFORM") or os.getenv("AUTOMATION_PLATFORM") or "netflix",
         "AUTOMATION_COUNTRY": config.get("AUTOMATION_COUNTRY") or os.getenv("AUTOMATION_COUNTRY") or "world",
-        "AUTOMATION_MEDIA_TYPE": config.get("AUTOMATION_MEDIA_TYPE") or os.getenv("AUTOMATION_MEDIA_TYPE") or "both"
+        "AUTOMATION_MEDIA_TYPE": config.get("AUTOMATION_MEDIA_TYPE") or os.getenv("AUTOMATION_MEDIA_TYPE") or "both",
+        "AUTOMATION_PIPELINES": config.get("AUTOMATION_PIPELINES") or os.getenv("AUTOMATION_PIPELINES") or "[]"
     }
 
 @app.route("/")
@@ -69,6 +70,7 @@ def save_config():
     auto_platform = data.get("AUTOMATION_PLATFORM", "netflix").strip().lower().replace("\n", "").replace("\r", "")
     auto_country = data.get("AUTOMATION_COUNTRY", "world").strip().lower().replace("\n", "").replace("\r", "")
     auto_media_type = data.get("AUTOMATION_MEDIA_TYPE", "both").strip().lower().replace("\n", "").replace("\r", "")
+    auto_pipelines = str(data.get("AUTOMATION_PIPELINES", "[]")).strip().replace("\n", "").replace("\r", "")
 
     try:
         # Save to local .env
@@ -81,6 +83,7 @@ def save_config():
             f.write(f"AUTOMATION_PLATFORM={auto_platform}\n")
             f.write(f"AUTOMATION_COUNTRY={auto_country}\n")
             f.write(f"AUTOMATION_MEDIA_TYPE={auto_media_type}\n")
+            f.write(f"AUTOMATION_PIPELINES={auto_pipelines}\n")
 
         # Reload environment variables in Python context immediately
         load_dotenv(env_path, override=True)
@@ -257,7 +260,7 @@ def proxy_image():
 
 def run_automation_worker():
     """
-    Background worker that wakes up precisely every 48 hours to sync the pinned list.
+    Background worker that wakes up precisely every 48 hours to sync the pinned lists.
     """
     print("[AUTOMATION] Background worker thread started successfully.")
     # 48 hours in seconds: 48 * 3600 = 172800 seconds
@@ -269,52 +272,73 @@ def run_automation_worker():
     while True:
         try:
             from dotenv import dotenv_values
+            import json
             env = dotenv_values(env_path)
             
             enabled = env.get("AUTOMATION_ENABLED", "false").strip().lower() == "true"
-            platform = env.get("AUTOMATION_PLATFORM", "netflix").strip().lower()
-            country = env.get("AUTOMATION_COUNTRY", "world").strip().lower()
-            media_type = env.get("AUTOMATION_MEDIA_TYPE", "both").strip().lower()
+            
+            pipelines = []
+            pipelines_json = env.get("AUTOMATION_PIPELINES", "").strip()
+            if pipelines_json:
+                try:
+                    pipelines = json.loads(pipelines_json)
+                except Exception as parse_err:
+                    print(f"[AUTOMATION ERROR] Failed to parse AUTOMATION_PIPELINES: {parse_err}")
+            
+            # Fallback to legacy single scalar settings if pipelines is empty
+            if not pipelines:
+                platform = env.get("AUTOMATION_PLATFORM", "netflix").strip().lower()
+                country = env.get("AUTOMATION_COUNTRY", "world").strip().lower()
+                media_type = env.get("AUTOMATION_MEDIA_TYPE", "both").strip().lower()
+                pipelines = [{"platform": platform, "country": country, "media": media_type}]
             
             if enabled:
-                print(f"[AUTOMATION] Pinned Sync starting: Platform={platform}, Country={country}, Media={media_type}")
-                movies_scraped, shows_scraped = scraper.scrape_top_10(platform, country)
-                
+                print(f"[AUTOMATION] Pinned Sync starting for {len(pipelines)} pipelines...")
                 url = env.get("SEERR_URL", "").rstrip("/")
                 api_key = env.get("SEERR_API_KEY", "")
                 email = env.get("SEERR_EMAIL", "")
                 password = env.get("SEERR_PASSWORD", "")
                 
                 if url and api_key and email and password:
-                    items_to_sync = []
-                    
-                    # Movies
-                    if media_type in ["both", "movie"] and movies_scraped:
-                        for title in movies_scraped:
-                            res = seerr.search_media(title, "movie")
-                            if res and not res.get("skip") and res.get("tmdbId"):
-                                items_to_sync.append({"tmdbId": res["tmdbId"], "type": "movie", "title": title})
-                                
-                    # TV Shows
-                    if media_type in ["both", "tv"] and shows_scraped:
-                        for title in shows_scraped:
-                            res = seerr.search_media(title, "tv")
-                            if res and not res.get("skip") and res.get("tmdbId"):
-                                items_to_sync.append({"tmdbId": res["tmdbId"], "type": "tv", "title": title})
-                                
-                    if items_to_sync:
-                        print(f"[AUTOMATION] Syncing {len(items_to_sync)} items via Overseerr bot auth...")
-                        success_count = 0
-                        for item in items_to_sync:
-                            try:
-                                seerr.request_media(item["tmdbId"], item["type"])
-                                success_count += 1
-                                time.sleep(1) # Gentle on Seerr
-                            except Exception as req_err:
-                                print(f"[AUTOMATION ERROR] Failed to request {item['title']}: {req_err}")
-                        print(f"[AUTOMATION] Pinned Sync finished: requested {success_count}/{len(items_to_sync)} items successfully.")
-                    else:
-                        print("[AUTOMATION] No items require sync (all available or requested).")
+                    for pipe in pipelines:
+                        p_platform = pipe.get("platform", "netflix").strip().lower()
+                        p_country = pipe.get("country", "world").strip().lower()
+                        p_media_type = pipe.get("media", "both").strip().lower()
+                        
+                        print(f"[AUTOMATION] Executing pipeline: Platform={p_platform}, Country={p_country}, Media={p_media_type}")
+                        try:
+                            movies_scraped, shows_scraped = scraper.scrape_top_10(p_platform, p_country)
+                            items_to_sync = []
+                            
+                            # Movies
+                            if p_media_type in ["both", "movie"] and movies_scraped:
+                                for title in movies_scraped:
+                                    res = seerr.search_media(title, "movie")
+                                    if res and not res.get("skip") and res.get("tmdbId"):
+                                        items_to_sync.append({"tmdbId": res["tmdbId"], "type": "movie", "title": title})
+                                        
+                            # TV Shows
+                            if p_media_type in ["both", "tv"] and shows_scraped:
+                                for title in shows_scraped:
+                                    res = seerr.search_media(title, "tv")
+                                    if res and not res.get("skip") and res.get("tmdbId"):
+                                        items_to_sync.append({"tmdbId": res["tmdbId"], "type": "tv", "title": title})
+                                        
+                            if items_to_sync:
+                                print(f"[AUTOMATION] Syncing {len(items_to_sync)} items via Overseerr bot auth...")
+                                success_count = 0
+                                for item in items_to_sync:
+                                    try:
+                                        seerr.request_media(item["tmdbId"], item["type"])
+                                        success_count += 1
+                                        time.sleep(1) # Gentle on Seerr
+                                    except Exception as req_err:
+                                        print(f"[AUTOMATION ERROR] Failed to request {item['title']}: {req_err}")
+                                print(f"[AUTOMATION] Pipeline finished: requested {success_count}/{len(items_to_sync)} items successfully.")
+                            else:
+                                print("[AUTOMATION] No items require sync in this pipeline.")
+                        except Exception as pipe_err:
+                            print(f"[AUTOMATION ERROR] Pipeline Platform={p_platform}, Country={p_country} failed: {pipe_err}")
                 else:
                     print("[AUTOMATION WARNING] Overseerr credentials missing. Skipping background sync.")
             else:
