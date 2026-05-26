@@ -147,8 +147,18 @@ def search_media(query, media_type="movie"):
             skip = False
             status_str = "Ready"
             
-            # Check the mediaInfo object to see if we should skip requesting it
-            media_info = result.get("mediaInfo")
+            # Fetch detailed media details unconditionally to resolve watchProviders and trailer videos
+            detailed_data = None
+            detailed_url = f"{url}/api/v1/{media_type}/{tmdb_id}"
+            try:
+                detailed_response = requests.get(detailed_url, headers=headers, timeout=5)
+                if detailed_response.status_code == 200:
+                    detailed_data = detailed_response.json()
+            except Exception as e:
+                print(f"Error fetching detailed info for TMDB ID {tmdb_id}: {e}")
+
+            # Check status inside result and detailed mediaInfo
+            media_info = result.get("mediaInfo") or (detailed_data.get("mediaInfo") if detailed_data else None)
             if media_info:
                 status = media_info.get("status")
                 # 2: PENDING, 3: PROCESSING, 4: PARTIALLY_AVAILABLE, 5: AVAILABLE
@@ -159,23 +169,75 @@ def search_media(query, media_type="movie"):
                     skip = True
                     status_str = "Available"
                     
-            # If not skipped by basic status, check for declined requests
-            if not skip:
-                detailed_url = f"{url}/api/v1/{media_type}/{tmdb_id}"
-                try:
-                    detailed_response = requests.get(detailed_url, headers=headers, timeout=5)
-                    if detailed_response.status_code == 200:
-                        detailed_media_info = detailed_response.json().get("mediaInfo", {})
-                        if detailed_media_info:
-                            requests_list = detailed_media_info.get("requests", [])
-                            for req in requests_list:
-                                # 3: DECLINED
-                                if req.get("status") == 3:
-                                    skip = True
-                                    status_str = "Declined"
+            # Check for declined requests from detailed media requests list
+            if not skip and detailed_data:
+                detailed_media_info = detailed_data.get("mediaInfo", {})
+                if detailed_media_info:
+                    requests_list = detailed_media_info.get("requests", [])
+                    for req in requests_list:
+                        # 3: DECLINED
+                        if req.get("status") == 3:
+                            skip = True
+                            status_str = "Declined"
+                            break
+
+            # Extract watch provider flatrates dynamically
+            watch_providers = []
+            if detailed_data:
+                raw_providers = detailed_data.get("watchProviders", [])
+                # If it's a dict (TMDB style results), convert to list of values
+                if isinstance(raw_providers, dict):
+                    if "results" in raw_providers:
+                        raw_providers = raw_providers.get("results", {})
+                    if isinstance(raw_providers, dict):
+                        raw_providers = list(raw_providers.values())
+                
+                if isinstance(raw_providers, list):
+                    for region_data in raw_providers:
+                        if isinstance(region_data, dict):
+                            flatrate = region_data.get("flatrate") or region_data.get("flatrate_list") or []
+                            if isinstance(flatrate, list):
+                                for provider in flatrate:
+                                    if isinstance(provider, dict):
+                                        provider_name = provider.get("providerName") or provider.get("provider_name") or provider.get("name")
+                                        logo_path = provider.get("logoPath") or provider.get("logo_path")
+                                        if not provider_name:
+                                            continue
+                                        logo_url = None
+                                        if logo_path:
+                                            raw_logo = f"{url}/api/v1/imageproxy/https://image.tmdb.org/t/p/original{logo_path}"
+                                            logo_url = f"/api/proxy-image?url={urllib.parse.quote(raw_logo)}"
+                                        if not any(p["name"] == provider_name for p in watch_providers):
+                                            watch_providers.append({
+                                                "name": provider_name,
+                                                "logoUrl": logo_url
+                                            })
+
+            # Extract YouTube trailer video key dynamically
+            trailer_key = None
+            if detailed_data:
+                raw_videos = detailed_data.get("relatedVideos") or detailed_data.get("videos") or []
+                if isinstance(raw_videos, dict):
+                    videos = raw_videos.get("results", [])
+                else:
+                    videos = raw_videos
+                
+                if isinstance(videos, list):
+                    for video in videos:
+                        if isinstance(video, dict):
+                            site = video.get("site") or video.get("Site")
+                            v_type = video.get("type") or video.get("Type")
+                            if site == "YouTube" and v_type == "Trailer":
+                                trailer_key = video.get("key") or video.get("Key")
+                                break
+                    if not trailer_key:
+                        for video in videos:
+                            if isinstance(video, dict):
+                                site = video.get("site") or video.get("Site")
+                                if site == "YouTube":
+                                    trailer_key = video.get("key") or video.get("Key")
                                     break
-                except Exception as e:
-                    print(f"Error fetching detailed info for TMDB ID {tmdb_id}: {e}")
+
                     
             # Extract year from releaseDate (movie) or firstAirDate (tv)
             date_str = result.get("releaseDate") if media_type == "movie" else result.get("firstAirDate")
@@ -193,7 +255,9 @@ def search_media(query, media_type="movie"):
                 "status": status_str,
                 "year": year,
                 "genre": genre,
-                "overview": result.get("overview")
+                "overview": result.get("overview"),
+                "watchProviders": watch_providers,
+                "trailerKey": trailer_key
             }
             
     return None

@@ -9,3 +9,9 @@ __pycache__/
 # IDEs
 .idea/
 .vscode/
+
+# Data / Logs / Temp
+sync_history.json
+detailed_response.json
+scratch/
+
