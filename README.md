@@ -15,7 +15,7 @@ It features a premium, glassmorphic dark slate/indigo UI with horizontal streami
 
 | Dashboard Home Overview | Interactive Media Details Popup |
 | :---: | :---: |
-| ![Dashboard Home](static/img/web_front.png) | ![Details Popup](static/img/details_popup.png) |
+| ![Details Popup](static/img/details_popup.png) | ![Dashboard Home](static/img/web_front.png) |
 
 ---
 
