@@ -11,6 +11,14 @@ It features a premium, glassmorphic dark slate/indigo UI with horizontal streami
 
 ---
 
+## 📸 Screenshots
+
+| Dashboard Home Overview | Interactive Media Details Popup |
+| :---: | :---: |
+| ![Dashboard Home](static/img/web_front.png) | ![Details Popup](static/img/details_popup.png) |
+
+---
+
 ## ✨ Key Features
 
 * **🌟 Multi-Platform Scraper Integration:** Supports 6 major platforms: Netflix, Amazon Prime Video, Disney+, HBO Max, Apple TV+, and Paramount+, leveraging exact FlixPatrol slug schemas.
