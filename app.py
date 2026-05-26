@@ -139,6 +139,7 @@ def fetch_list():
                 item["isRequestable"] = not seerr_res.get("skip")
                 item["year"] = seerr_res.get("year")
                 item["genre"] = seerr_res.get("genre")
+                item["overview"] = seerr_res.get("overview")
             movies_results.append(item)
 
     # Process TV shows
@@ -163,6 +164,7 @@ def fetch_list():
                 item["isRequestable"] = not seerr_res.get("skip")
                 item["year"] = seerr_res.get("year")
                 item["genre"] = seerr_res.get("genre")
+                item["overview"] = seerr_res.get("overview")
             shows_results.append(item)
 
     return jsonify({

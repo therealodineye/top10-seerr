@@ -192,7 +192,8 @@ def search_media(query, media_type="movie"):
                 "skip": skip,
                 "status": status_str,
                 "year": year,
-                "genre": genre
+                "genre": genre,
+                "overview": result.get("overview")
             }
             
     return None
