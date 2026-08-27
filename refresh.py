@@ -243,7 +243,7 @@ def resolve_netflix_tmdb(title, media_type):
             db.upsert_title(tmdb_id, media_type, {
                 "title": title,
                 "overview": res.get("overview"),
-                "poster_path": None,
+                "poster_path": res.get("posterPath"),
                 "genre": res.get("genre"),
                 "year": res.get("year"),
                 "status": res.get("status"),
@@ -458,7 +458,11 @@ def enrich_metadata():
     for row in pairs:
         tmdb_id, media_type = row["tmdb_id"], row["media_type"]
         existing = db.get_title(tmdb_id, media_type)
-        if existing and (time.time() - existing["fetched_at"]) < TITLE_META_TTL:
+        # Re-fetch if the cached row is missing a poster, even inside the TTL:
+        # the Netflix path seeds rows from search results that can lack one, and
+        # without this those rows would never gain a poster.
+        if (existing and existing["poster_path"]
+                and (time.time() - existing["fetched_at"]) < TITLE_META_TTL):
             skipped += 1
             continue
         try:

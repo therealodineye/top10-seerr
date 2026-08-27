@@ -251,6 +251,7 @@ def search_media(query, media_type="movie"):
             return {
                 "tmdbId": tmdb_id,
                 "posterUrl": poster_url,
+                "posterPath": poster_path,
                 "skip": skip,
                 "status": status_str,
                 "year": year,
