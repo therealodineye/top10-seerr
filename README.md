@@ -1,177 +1,142 @@
-# 🎬 Top10 to Seerr
+# Top 10 → Seerr
 
-[![Docker Compatible](https://img.shields.io/badge/Docker-Compatible-blue.svg?logo=docker&logoColor=white)](https://www.docker.com/)
-[![Flask Web Framework](https://img.shields.io/badge/Framework-Flask--Python-red.svg?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![Tailwind CSS UI](https://img.shields.io/badge/UI-Tailwind--CSS-38bdf8.svg?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Overseerr Integrated](https://img.shields.io/badge/Sync-Overseerr%20%2F%20Seerr-yellow.svg)](https://overseerr.dev/)
+Streaming Top 10 charts for six platforms across 94 countries, cross-referenced
+against your Overseerr/Jellyseerr library so missing titles can be requested in
+one click. Serves a web UI and a JSON API consumed by a companion Android TV app.
 
-**Top10 to Seerr** is a premium, full-stack, single-page web application designed to automatically track popular trending charts across **6 major streaming platforms** (Netflix, Amazon Prime Video, Disney+, HBO Max, Apple TV+, Paramount+) supporting **100+ countries** and global charts. It cross-references trending lists against your local **Overseerr/Seerr** library, allowing users to bulk-request missing media in a single click.
+Platforms: **Netflix, Amazon Prime Video, Disney+, HBO Max, Apple TV+, Paramount+**
 
-It features a premium, glassmorphic dark slate/indigo UI with horizontal streaming platform navigation tabs, live vector country flag comboboxes, a dedicated active background automation banner, interactive full-card click selections, self-healing poster image proxying, and a hybrid 48-hour background automation worker.
+## How it works
 
----
+**The refresher writes; the web layer only reads.**
 
-## 📸 Screenshots
+A scheduled job fetches every platform/country pair into SQLite. HTTP requests
+are pure database reads — a user request never touches the internet and cannot
+hang. Stale data is always served in preference to nothing.
 
-| Dashboard Home Overview | Interactive Media Details Popup |
-| :---: | :---: |
-| ![Dashboard Home](static/img/web_front.png) | ![Details Popup](static/img/details_popup.png) |
+```
+refresh.py ──> SQLite (/app/data/top10.db) ──> app.py ──> /api/home
+   │
+   ├── Netflix        official Tudum weekly feed (true ranks)
+   ├── Others         JustWatch GraphQL (~0.13s, no auth)
+   ├── Fallback       TMDB discover via Overseerr + recency filter
+   └── Enrichment     Overseerr by tmdbId → poster, overview, library status
+```
 
----
+A full refresh takes about **70 seconds** and writes ~7000 rows.
 
-## ✨ Key Features
+### Data sources
 
-* **🌟 Multi-Platform Scraper Integration:** Supports 6 major platforms: Netflix, Amazon Prime Video, Disney+, HBO Max, Apple TV+, and Paramount+, leveraging exact FlixPatrol slug schemas.
-* **🌍 100+ Countries & Global Lists:** Dropdown selector populated with countries dynamically (using vector flags from `flagcdn`) alongside global charts.
-* **⚡ Searchable Country Combobox:** Filter countries effortlessly. The input leading icon dynamically changes to the country's flag (or a spinning globe for global lists) on selection.
-* **🤖 Premium Dedicated Auto-Sync Banner:** A dedicated glassmorphic status banner directly beneath the Controls card displaying active background sync subscription status (with overlapping platform emblems and country flags).
-* **🎬 Flexible Automated Sync:** Easily select which media types to sync automatically (`🎬 Movies Only`, `📺 Shows Only`, or `🌟 Both`) and update or switch configurations instantly.
-* **🛡️ Deep Duplicate Request Protection:** Automatically crawls Overseerr's database, inspecting media states to disable request operations for titles that are already **Available**, **Processing**, **Pending Request**, or admin-**Declined**.
-* **🚀 Self-Healing Poster Proxying:** Solves the notorious Overseerr `/api/v1/imageproxy` authentication wall. Flask automatically attempts to fetch posters using Seerr API credentials; if that fails or is misconfigured, the backend **automatically extracts the raw TMDB CDN link, downloads it directly, and streams the image to the browser**, ensuring 100% poster visibility!
-* **🧠 Title Normalization:** Strips platform series and season descriptors (e.g., converting `"The Boroughs: Season 1"` to `"The Boroughs"`), boosting TMDB search match accuracy to **near 100%**.
-* **🖱️ Full-Card Selection & `:has()` Styling:** Select items by clicking anywhere on a media card. Utilizes CSS `:has()` styling to render beautiful glowing borders and subtle gradient transformations on checked cards.
-* **⚙️ Dynamic Configuration Drawer:** Change Overseerr URLs or credentials on the fly via a slide-out settings panel. Variables are written to the `.env` file and hot-reloaded instantly in Flask memory with zero server restarts.
-* **🐳 Dockerized Deployment:** Easily package and run the application as a lightweight container served on port **8562**.
+| Source | Used for | Notes |
+|---|---|---|
+| [Netflix Tudum](https://www.netflix.com/tudum/top10/data/all-weeks-countries.tsv) | Netflix only | True weekly ranks 1-10, 94 countries, updated Tuesdays. ~32 MB, downloaded once per refresh. `cumulative_weeks_in_top_10 == 1` drives the "new entry" flag. |
+| JustWatch GraphQL | All other platforms | `POST https://apis.justwatch.com/graphql`, no auth or API key. Returns `tmdbId` inline. |
+| TMDB discover (via Overseerr) | Last-resort fallback | With a 120-day recency filter — raw popularity alone surfaces catalog evergreens and makes a poor Top 10. |
 
----
+> **JustWatch package codes are per country.** HBO Max is `mxx` in France but can
+> differ elsewhere. They are resolved at refresh time via a `packages(country:)`
+> query and cached — never hardcode them globally. A platform being unavailable
+> in a country is normal and is recorded as `empty`, not an error.
 
-## 🛠️ Docker & Docker Compose Setup (Recommended)
+## API
 
-Running the application with Docker or Docker Compose is the easiest and most robust method. It keeps your system clean and isolates dependencies.
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/home?country=<slug>` | **Primary.** Every platform, movies + shows, in one call (~0.18s) |
+| `GET /api/countries` | 94 countries, pre-ordered |
+| `GET /api/health` | Row counts, per-source breakdown, last refresh time and stats |
+| `POST /api/sync` | Request titles into Overseerr |
+| `GET /api/history` | Sync history |
+| `GET /api/proxy-image?url=` | Poster proxy |
+| `POST /api/fetch` | Legacy single-platform endpoint, kept for compatibility |
 
-### Prerequisites
-Make sure you have [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed on your machine.
+`/api/home` response:
 
-### Method A: Instant Setup (Pre-built Image)
-If you just want to run the application, you only need a single file: `docker-compose.yml`.
+```json
+{
+  "country": "france",
+  "generatedAt": "2026-08-27T14:00:00Z",
+  "platforms": [{
+    "platform": "netflix",
+    "displayName": "Netflix",
+    "source": "netflix-official",
+    "fetchedAt": "2026-08-27T02:00:00Z",
+    "ageHours": 12.5,
+    "movies": [{
+      "rank": 1, "title": "The Last House", "type": "movie", "tmdbId": 1284041,
+      "posterUrl": "/api/proxy-image?url=...", "overview": "...",
+      "genre": "Horror", "year": "2026", "status": "Available",
+      "isRequestable": false, "isNewEntry": true, "weeksInTop10": 1,
+      "trailerKey": "abc123", "watchProviders": []
+    }],
+    "shows": []
+  }]
+}
+```
 
-1. **Create a `docker-compose.yml` file** on your machine:
-   ```yaml
-   services:
-     top10-seerr:
-       image: ghcr.io/therealodineye/top10-seerr:latest
-       container_name: top10-seerr
-       ports:
-         - "8562:5000"
-       volumes:
-         # Mounts local .env file to persist configurations entered in the UI settings drawer
-         - ./.env:/app/.env
-       restart: unless-stopped
-   ```
+`posterUrl` is relative — prefix it with the base URL. `status` is
+`Available` / `Processing` / `Ready`.
 
-2. **Pre-create an empty `.env` file** in the same directory:
-   ```bash
-   touch .env
-   ```
-   > [!IMPORTANT]
-   > You must create the `.env` file *before* starting the docker container so that Docker Compose mounts a file rather than creating an empty directory on the host.
+**Country order is deliberate:** Norway (default), United Kingdom, United States,
+then alphabetical. `/api/countries` returns them already ordered — do not re-sort
+in the client.
 
-3. **Start the application:**
-   ```bash
-   docker compose up -d
-   ```
+## Running it
 
-4. **Access the Web App:** Open your browser and navigate to: **[http://localhost:8562](http://localhost:8562)**
+```yaml
+services:
+  top10-seerr:
+    image: ghcr.io/therealodineye/top10-seerr:latest
+    container_name: top10-seerr
+    ports:
+      - "8564:5000"
+    volumes:
+      - ./config/top10-seerr/.env:/app/.env
+      - ./config/top10-seerr/data:/app/data   # SQLite lives here — must persist
+    restart: unless-stopped
+```
 
----
+Configure Overseerr in `.env` (see `.env.example`): `SEERR_URL`, `SEERR_API_KEY`,
+`SEERR_EMAIL`, `SEERR_PASSWORD`.
 
-### Method B: Clone & Build Locally
-If you prefer to compile and build the container image yourself from the source code:
+Schedule the refresher — every 6 hours is plenty:
 
-1. **Clone the Repository** and enter the folder:
-   ```bash
-   git clone https://github.com/therealodineye/top10-seerr.git
-   cd top10-seerr
-   ```
+```
+0 */6 * * * /usr/bin/docker exec top10-seerr python3 /app/refresh.py >> /path/to/logs/refresh.log 2>&1
+```
 
-2. **Prepare the environment file:**
-   ```bash
-   cp .env.example .env
-   ```
-   > [!IMPORTANT]
-   > Create the `.env` file *before* running compose to prevent Docker from mounting it as a folder.
+Run it once manually after first start, or the database will be empty:
 
-3. **Start the application** (it will compile locally using the local `Dockerfile`):
-   ```bash
-   docker compose up -d
-   ```
+```
+docker exec top10-seerr python3 /app/refresh.py
+```
 
-4. **Access the Web App:** Open your browser and navigate to: **[http://localhost:8562](http://localhost:8562)**
+## Notes
 
----
+* **The `data` volume must persist.** The database is the cache. Without it every
+  restart starts empty.
+* **Build on `main`.** `.github/workflows/docker-publish.yml` publishes to GHCR
+  and tags `latest` from `main`. If that gating is wrong, CI goes green while the
+  server keeps pulling a stale image.
+* `scraper.py` is a metadata-only compatibility shim and performs **no** network
+  access. FlixPatrol scraping and the FlareSolverr dependency were removed
+  entirely — see below.
+* If Netflix rows lose their posters, check that `seerr.search_media()` still
+  returns `posterPath`. `enrich_metadata()` re-fetches any row missing a poster
+  even inside its TTL, so the condition self-heals once the source is fixed.
 
-## 📦 Direct Python Setup (Local Development)
+## Why it was rewritten
 
-If you wish to run the Flask application directly on your local system without Docker:
+Charts used to be scraped from FlixPatrol. FlixPatrol added Cloudflare Turnstile,
+so every chart fetch had to solve a challenge through FlareSolverr *inside the
+user's request*:
 
-### Prerequisites
-* Python 3.10 or higher
-* `pip` package manager
+* 13-140s per view, against a 60s timeout at both the reverse proxy and the client
+* ~18% hard failure rate across a full 504-combination run — worst on Amazon
+  Prime and HBO Max
+* a full prewarm took 165 minutes, and cached nothing usable: the cache was an
+  in-process dict, gunicorn runs two workers, and the prewarm ran in a third
+  process that exited
 
-### Steps
-1. **Clone & Enter Folder:**
-   ```bash
-   git clone https://github.com/therealodineye/top10-seerr.git
-   cd top10-seerr
-   ```
-
-2. **Set Up Virtual Environment:**
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
-   ```
-
-3. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Launch the Server:**
-   ```bash
-   python app.py
-   ```
-   The development server will boot and be accessible at: **[http://127.0.0.1:5000](http://127.0.0.1:5000)**.
-
----
-
-## 🛡️ Request Approval & Dedicated Bot User (Recommended)
-
-To ensure that media requests made through this application are **not automatically approved** (keeping you in complete control of what actually gets downloaded by Radarr/Sonarr), it is highly recommended to set up a dedicated low-permission "bot user" in Overseerr:
-
-1. **Create the Bot User in Seerr:**
-   * Go to **Overseerr/Seerr** → **Users** → **Add User**.
-   * Create a local account with a unique email and password (e.g., `seerrsync-bot@local.domain`).
-   * **Do not grant any Auto-Approve permissions** to this user.
-   * Note the email and password—you will enter them in the application settings drawer!
-
-2. **How it Works:**
-   * When you submit requests, the web app authenticates as this dedicated low-permission bot account.
-   * The requests will be successfully submitted to Overseerr and put into the **Pending approval** queue rather than auto-importing immediately. This allows administrators to review and approve downloads individually!
-
----
-
-## ⚙️ Configuration Variables
-
-The application can write its variables dynamically from the UI's slide-out settings drawer. Alternatively, you can configure them directly in your `.env` file:
-
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `SEERR_URL` | The base URL of your Overseerr/Seerr server (with trailing slash) | `https://seerr.mydomain.com/` |
-| `SEERR_API_KEY` | Your Overseerr API Key (found in *Settings -> General*) | `MTc3MT...==` |
-| `SEERR_EMAIL` | The admin/user email address used to log into Overseerr | `admin@domain.com` |
-| `SEERR_PASSWORD` | The password associated with the Overseerr email | `my_password` |
-| `AUTOMATION_ENABLED` | Enable background pinned list sync automation (`true` / `false`) | `false` |
-| `AUTOMATION_PLATFORM` | Platform slug for automation: netflix, amazon-prime, disney, hbo-max, apple-tv, paramount-plus | `netflix` |
-| `AUTOMATION_COUNTRY` | Country slug for automation (e.g. world, norway, united-states, etc. matching flixpatrol slugs) | `world` |
-| `AUTOMATION_MEDIA_TYPE` | Media type to automatically sync background pinned lists (`both`, `movie`, `tv`) | `both` |
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
-
-### IMPORTANT NOTICE
-Only for educational purposes, make sure you have the rights to download any media on the internet.
+The rewrite removed Cloudflare from the request path entirely. The same view now
+resolves in **~0.18s with zero errors**, and a full refresh takes 70 seconds.
