@@ -1,0 +1,472 @@
+[
+  {
+    "name": "Norway",
+    "slug": "norway",
+    "iso2": "NO"
+  },
+  {
+    "name": "United Kingdom",
+    "slug": "united-kingdom",
+    "iso2": "GB"
+  },
+  {
+    "name": "United States",
+    "slug": "united-states",
+    "iso2": "US"
+  },
+  {
+    "name": "Argentina",
+    "slug": "argentina",
+    "iso2": "AR"
+  },
+  {
+    "name": "Australia",
+    "slug": "australia",
+    "iso2": "AU"
+  },
+  {
+    "name": "Austria",
+    "slug": "austria",
+    "iso2": "AT"
+  },
+  {
+    "name": "Bahamas",
+    "slug": "bahamas",
+    "iso2": "BS"
+  },
+  {
+    "name": "Bahrain",
+    "slug": "bahrain",
+    "iso2": "BH"
+  },
+  {
+    "name": "Bangladesh",
+    "slug": "bangladesh",
+    "iso2": "BD"
+  },
+  {
+    "name": "Belgium",
+    "slug": "belgium",
+    "iso2": "BE"
+  },
+  {
+    "name": "Bolivia",
+    "slug": "bolivia",
+    "iso2": "BO"
+  },
+  {
+    "name": "Brazil",
+    "slug": "brazil",
+    "iso2": "BR"
+  },
+  {
+    "name": "Bulgaria",
+    "slug": "bulgaria",
+    "iso2": "BG"
+  },
+  {
+    "name": "Canada",
+    "slug": "canada",
+    "iso2": "CA"
+  },
+  {
+    "name": "Chile",
+    "slug": "chile",
+    "iso2": "CL"
+  },
+  {
+    "name": "Colombia",
+    "slug": "colombia",
+    "iso2": "CO"
+  },
+  {
+    "name": "Costa Rica",
+    "slug": "costa-rica",
+    "iso2": "CR"
+  },
+  {
+    "name": "Croatia",
+    "slug": "croatia",
+    "iso2": "HR"
+  },
+  {
+    "name": "Cyprus",
+    "slug": "cyprus",
+    "iso2": "CY"
+  },
+  {
+    "name": "Czech Republic",
+    "slug": "czech-republic",
+    "iso2": "CZ"
+  },
+  {
+    "name": "Denmark",
+    "slug": "denmark",
+    "iso2": "DK"
+  },
+  {
+    "name": "Dominican Republic",
+    "slug": "dominican-republic",
+    "iso2": "DO"
+  },
+  {
+    "name": "Ecuador",
+    "slug": "ecuador",
+    "iso2": "EC"
+  },
+  {
+    "name": "Egypt",
+    "slug": "egypt",
+    "iso2": "EG"
+  },
+  {
+    "name": "El Salvador",
+    "slug": "el-salvador",
+    "iso2": "SV"
+  },
+  {
+    "name": "Estonia",
+    "slug": "estonia",
+    "iso2": "EE"
+  },
+  {
+    "name": "Finland",
+    "slug": "finland",
+    "iso2": "FI"
+  },
+  {
+    "name": "France",
+    "slug": "france",
+    "iso2": "FR"
+  },
+  {
+    "name": "Germany",
+    "slug": "germany",
+    "iso2": "DE"
+  },
+  {
+    "name": "Greece",
+    "slug": "greece",
+    "iso2": "GR"
+  },
+  {
+    "name": "Guadeloupe",
+    "slug": "guadeloupe",
+    "iso2": "GP"
+  },
+  {
+    "name": "Guatemala",
+    "slug": "guatemala",
+    "iso2": "GT"
+  },
+  {
+    "name": "Honduras",
+    "slug": "honduras",
+    "iso2": "HN"
+  },
+  {
+    "name": "Hong Kong",
+    "slug": "hong-kong",
+    "iso2": "HK"
+  },
+  {
+    "name": "Hungary",
+    "slug": "hungary",
+    "iso2": "HU"
+  },
+  {
+    "name": "Iceland",
+    "slug": "iceland",
+    "iso2": "IS"
+  },
+  {
+    "name": "India",
+    "slug": "india",
+    "iso2": "IN"
+  },
+  {
+    "name": "Indonesia",
+    "slug": "indonesia",
+    "iso2": "ID"
+  },
+  {
+    "name": "Ireland",
+    "slug": "ireland",
+    "iso2": "IE"
+  },
+  {
+    "name": "Israel",
+    "slug": "israel",
+    "iso2": "IL"
+  },
+  {
+    "name": "Italy",
+    "slug": "italy",
+    "iso2": "IT"
+  },
+  {
+    "name": "Jamaica",
+    "slug": "jamaica",
+    "iso2": "JM"
+  },
+  {
+    "name": "Japan",
+    "slug": "japan",
+    "iso2": "JP"
+  },
+  {
+    "name": "Jordan",
+    "slug": "jordan",
+    "iso2": "JO"
+  },
+  {
+    "name": "Kenya",
+    "slug": "kenya",
+    "iso2": "KE"
+  },
+  {
+    "name": "Kuwait",
+    "slug": "kuwait",
+    "iso2": "KW"
+  },
+  {
+    "name": "Latvia",
+    "slug": "latvia",
+    "iso2": "LV"
+  },
+  {
+    "name": "Lebanon",
+    "slug": "lebanon",
+    "iso2": "LB"
+  },
+  {
+    "name": "Lithuania",
+    "slug": "lithuania",
+    "iso2": "LT"
+  },
+  {
+    "name": "Luxembourg",
+    "slug": "luxembourg",
+    "iso2": "LU"
+  },
+  {
+    "name": "Malaysia",
+    "slug": "malaysia",
+    "iso2": "MY"
+  },
+  {
+    "name": "Maldives",
+    "slug": "maldives",
+    "iso2": "MV"
+  },
+  {
+    "name": "Malta",
+    "slug": "malta",
+    "iso2": "MT"
+  },
+  {
+    "name": "Martinique",
+    "slug": "martinique",
+    "iso2": "MQ"
+  },
+  {
+    "name": "Mauritius",
+    "slug": "mauritius",
+    "iso2": "MU"
+  },
+  {
+    "name": "Mexico",
+    "slug": "mexico",
+    "iso2": "MX"
+  },
+  {
+    "name": "Morocco",
+    "slug": "morocco",
+    "iso2": "MA"
+  },
+  {
+    "name": "Netherlands",
+    "slug": "netherlands",
+    "iso2": "NL"
+  },
+  {
+    "name": "New Caledonia",
+    "slug": "new-caledonia",
+    "iso2": "NC"
+  },
+  {
+    "name": "New Zealand",
+    "slug": "new-zealand",
+    "iso2": "NZ"
+  },
+  {
+    "name": "Nicaragua",
+    "slug": "nicaragua",
+    "iso2": "NI"
+  },
+  {
+    "name": "Nigeria",
+    "slug": "nigeria",
+    "iso2": "NG"
+  },
+  {
+    "name": "Oman",
+    "slug": "oman",
+    "iso2": "OM"
+  },
+  {
+    "name": "Pakistan",
+    "slug": "pakistan",
+    "iso2": "PK"
+  },
+  {
+    "name": "Panama",
+    "slug": "panama",
+    "iso2": "PA"
+  },
+  {
+    "name": "Paraguay",
+    "slug": "paraguay",
+    "iso2": "PY"
+  },
+  {
+    "name": "Peru",
+    "slug": "peru",
+    "iso2": "PE"
+  },
+  {
+    "name": "Philippines",
+    "slug": "philippines",
+    "iso2": "PH"
+  },
+  {
+    "name": "Poland",
+    "slug": "poland",
+    "iso2": "PL"
+  },
+  {
+    "name": "Portugal",
+    "slug": "portugal",
+    "iso2": "PT"
+  },
+  {
+    "name": "Qatar",
+    "slug": "qatar",
+    "iso2": "QA"
+  },
+  {
+    "name": "Romania",
+    "slug": "romania",
+    "iso2": "RO"
+  },
+  {
+    "name": "Russia",
+    "slug": "russia",
+    "iso2": "RU"
+  },
+  {
+    "name": "Réunion",
+    "slug": "reunion",
+    "iso2": "RE"
+  },
+  {
+    "name": "Saudi Arabia",
+    "slug": "saudi-arabia",
+    "iso2": "SA"
+  },
+  {
+    "name": "Serbia",
+    "slug": "serbia",
+    "iso2": "RS"
+  },
+  {
+    "name": "Singapore",
+    "slug": "singapore",
+    "iso2": "SG"
+  },
+  {
+    "name": "Slovakia",
+    "slug": "slovakia",
+    "iso2": "SK"
+  },
+  {
+    "name": "Slovenia",
+    "slug": "slovenia",
+    "iso2": "SI"
+  },
+  {
+    "name": "South Africa",
+    "slug": "south-africa",
+    "iso2": "ZA"
+  },
+  {
+    "name": "South Korea",
+    "slug": "south-korea",
+    "iso2": "KR"
+  },
+  {
+    "name": "Spain",
+    "slug": "spain",
+    "iso2": "ES"
+  },
+  {
+    "name": "Sri Lanka",
+    "slug": "sri-lanka",
+    "iso2": "LK"
+  },
+  {
+    "name": "Sweden",
+    "slug": "sweden",
+    "iso2": "SE"
+  },
+  {
+    "name": "Switzerland",
+    "slug": "switzerland",
+    "iso2": "CH"
+  },
+  {
+    "name": "Taiwan",
+    "slug": "taiwan",
+    "iso2": "TW"
+  },
+  {
+    "name": "Thailand",
+    "slug": "thailand",
+    "iso2": "TH"
+  },
+  {
+    "name": "Trinidad and Tobago",
+    "slug": "trinidad-and-tobago",
+    "iso2": "TT"
+  },
+  {
+    "name": "Turkey",
+    "slug": "turkey",
+    "iso2": "TR"
+  },
+  {
+    "name": "Ukraine",
+    "slug": "ukraine",
+    "iso2": "UA"
+  },
+  {
+    "name": "United Arab Emirates",
+    "slug": "united-arab-emirates",
+    "iso2": "AE"
+  },
+  {
+    "name": "Uruguay",
+    "slug": "uruguay",
+    "iso2": "UY"
+  },
+  {
+    "name": "Venezuela",
+    "slug": "venezuela",
+    "iso2": "VE"
+  },
+  {
+    "name": "Vietnam",
+    "slug": "vietnam",
+    "iso2": "VN"
+  }
+]

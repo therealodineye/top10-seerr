@@ -262,6 +262,114 @@ def search_media(query, media_type="movie"):
             
     return None
 
+def get_media_details(tmdb_id, media_type):
+    """
+    Fetch normalized metadata for a KNOWN tmdbId/mediaType directly from Overseerr
+    (GET /api/v1/movie/{id} or /tv/{id}) -- unlike search_media, this does not
+    search by title. Used by the refresher to enrich chart rows whose tmdbId was
+    already resolved by JustWatch / TMDB discover / the Netflix title_map cache.
+
+    Returns a dict with tmdbId, title, overview, posterUrl, posterPath, status,
+    isRequestable, year, genre, watchProviders, trailerKey -- or None on failure.
+    """
+    url, api_key, email, password, headers = get_seerr_config()
+    if not url or not api_key:
+        return None
+
+    detail_url = f"{url}/api/v1/{media_type}/{tmdb_id}"
+    try:
+        response = requests.get(detail_url, headers=headers, timeout=10)
+        response.raise_for_status()
+    except Exception as e:
+        print(f"Error fetching details for {media_type}/{tmdb_id}: {e}")
+        return None
+
+    data = response.json()
+    title = data.get("title") if media_type == "movie" else data.get("name")
+
+    poster_path = data.get("posterPath")
+    poster_url = None
+    if poster_path:
+        poster_url = f"{url}/api/v1/imageproxy/https://image.tmdb.org/t/p/w300{poster_path}"
+
+    date_str = data.get("releaseDate") if media_type == "movie" else data.get("firstAirDate")
+    year = date_str[:4] if date_str and len(date_str) >= 4 else None
+
+    genres = data.get("genres") or []
+    genre = None
+    if genres and isinstance(genres[0], dict):
+        genre = genres[0].get("name")
+
+    status_str = "Ready"
+    is_requestable = True
+    media_info = data.get("mediaInfo")
+    if media_info:
+        status = media_info.get("status")
+        # 2: PENDING, 3: PROCESSING, 4: PARTIALLY_AVAILABLE, 5: AVAILABLE
+        if status in [2, 3]:
+            status_str = "Processing"
+            is_requestable = False
+        elif status in [4, 5]:
+            status_str = "Available"
+            is_requestable = False
+
+    watch_providers = []
+    raw_providers = data.get("watchProviders", [])
+    if isinstance(raw_providers, dict):
+        if "results" in raw_providers:
+            raw_providers = raw_providers.get("results", {})
+        if isinstance(raw_providers, dict):
+            raw_providers = list(raw_providers.values())
+    if isinstance(raw_providers, list):
+        for region_data in raw_providers:
+            if isinstance(region_data, dict):
+                flatrate = region_data.get("flatrate") or region_data.get("flatrate_list") or []
+                if isinstance(flatrate, list):
+                    for provider in flatrate:
+                        if isinstance(provider, dict):
+                            provider_name = provider.get("providerName") or provider.get("provider_name") or provider.get("name")
+                            logo_path = provider.get("logoPath") or provider.get("logo_path")
+                            if not provider_name:
+                                continue
+                            logo_url = None
+                            if logo_path:
+                                raw_logo = f"{url}/api/v1/imageproxy/https://image.tmdb.org/t/p/original{logo_path}"
+                                logo_url = f"/api/proxy-image?url={urllib.parse.quote(raw_logo)}"
+                            if not any(p["name"] == provider_name for p in watch_providers):
+                                watch_providers.append({"name": provider_name, "logoUrl": logo_url})
+
+    trailer_key = None
+    raw_videos = data.get("relatedVideos") or data.get("videos") or []
+    videos = raw_videos.get("results", []) if isinstance(raw_videos, dict) else raw_videos
+    if isinstance(videos, list):
+        for video in videos:
+            if isinstance(video, dict):
+                site = video.get("site") or video.get("Site")
+                v_type = video.get("type") or video.get("Type")
+                if site == "YouTube" and v_type == "Trailer":
+                    trailer_key = video.get("key") or video.get("Key")
+                    break
+        if not trailer_key:
+            for video in videos:
+                if isinstance(video, dict) and (video.get("site") or video.get("Site")) == "YouTube":
+                    trailer_key = video.get("key") or video.get("Key")
+                    break
+
+    return {
+        "tmdbId": tmdb_id,
+        "title": title,
+        "overview": data.get("overview"),
+        "posterUrl": poster_url,
+        "posterPath": poster_path,
+        "status": status_str,
+        "isRequestable": is_requestable,
+        "year": year,
+        "genre": genre,
+        "watchProviders": watch_providers,
+        "trailerKey": trailer_key,
+    }
+
+
 def get_latest_season(tmdb_id):
     """
     Fetch TV show details to find the highest valid season number.
