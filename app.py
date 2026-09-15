@@ -35,6 +35,9 @@ PLATFORMS = {
 with open(os.path.join(BASE_DIR, "countries.json"), "r", encoding="utf-8") as f:
     COUNTRIES = json.load(f)
 COUNTRY_SLUGS = {c["slug"] for c in COUNTRIES}
+
+with open(os.path.join(BASE_DIR, "platform_countries.json"), "r", encoding="utf-8") as f:
+    PLATFORM_COUNTRIES = json.load(f)
 DEFAULT_COUNTRY = "norway"
 
 db.init_db()
@@ -149,7 +152,7 @@ def favicon():
 
 @app.route("/api/countries", methods=["GET"])
 def get_countries():
-    return jsonify(COUNTRIES)
+    return jsonify(PLATFORM_COUNTRIES)
 
 
 @app.route("/api/home", methods=["GET"])
